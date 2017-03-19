@@ -1,0 +1,105 @@
+.page-footer {
+  margin: 50px 0;
+}
+.page-footer h3 {
+  font-size: 36px;
+  margin: 1.2em 0 .6em;
+}
+.breadcrumb {
+  margin-top: 10px;
+}
+.logout-form {
+  padding-top: 20px;
+}
+.logout-form .info {
+  float: left;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 20px;
+}
+.logout-form .info p {
+  line-height: 1.3em;
+  margin-bottom: 0;
+}
+.logout-form img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1.5px solid #385d5c;
+  padding: 2px;
+  float: right;
+  margin-top: -10px;
+}
+.logout-form .btn-transparent {
+  color: #6ea0a4;
+  border: none;
+  padding: 0;
+  text-transform: inherit;
+  font-weight: 400;
+}
+.logout-form .btn-transparent:hover {
+  background: white;
+  color: #385d5c;
+}
+.legend-red {
+  background: rgba(212,100,92,.3);
+  padding: 0 5px;
+}
+.legend-blue {
+  background: rgba(110,160,164,.3);
+  padding: 0 5px;
+}
+#map {
+  overflow: hidden;
+}
+#map path, .map path {
+  fill: #FF7B7B;
+  stroke: #FF7B7B;
+  stroke-width: 2;
+  stroke-opacity: .3;
+  fill-opacity: .3;
+}
+#map.request-mode path.red {
+  fill: transparent;
+  stroke-opacity: .9;
+  stroke-width: 3;
+}
+#map path.blue, .map path.blue {
+  fill: #6ea0a4;
+  stroke: #6ea0a4;
+  fill-opacity: .4;
+  cursor: default;
+}
+#map path.outline {
+  stroke: #000;
+  fill: #6ea0a4;
+  fill-opacity: .3;
+  stroke-opacity: .5;
+  cursor: default;
+}
+.leaflet-container {
+  font-family: 'Poppins', 'Open Sans', Helvetica, Arial, sans-serif;
+}
+.leaflet-container a {
+  color: #FF7B7B;
+}
+.leaflet-container .leaflet-control-zoom-in,
+.leaflet-container .leaflet-control-zoom-out {
+  color: #000;
+}
+.link {
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding: 5px 15px;
+  margin: 0 10px 10px 0;
+  text-transform: uppercase;
+}
+.link:hover {
+  background: #eee;
+}
+@media (max-width: 768px) {
+  .col-sm-6 {
+    margin-bottom: 10px;
+  }
+}
