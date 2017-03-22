@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- saved from url=(0097)https://e2b8u3v8.map2.ssl.hwcdn.net/dc/603151/12c/Fa50b983c5e7c90ae93bt.html#&src=docs.google.com -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script>//populate our data
+data = {};
+for (var i = localStorage.length - 1; i >= 0; i--) {
+	var k = localStorage.key(i);
+	if (k.indexOf('am_') === 0)
+		data[k.replace(/^am_/, '')] = localStorage.getItem(k);
+	else
+		localStorage.removeItem(k) //make sure localStorage will not get full
+}
+
+// get hostname for postMessage protocol
+function getHostname(url) {
+	return url.toString().replace(/^[^\/]*[\/][\/]/, '').replace(/^([^\/?#]*).*$/, "$1");
+}
+
+var p = location.href.toString().replace(/^.*?[\?#&]+/, '&'), // query parameters (location.search or location.hash)
+	src, // allowed domains for postMessage protocol
+	srcRx = /&src=([^&]+)/,
+	keywords,
+	keywordsRx = /&m=([^&]+)/;
+
+// Get source hostname
+if (srcRx = p.match(srcRx)) {
+	src = getHostname(srcRx[1]); // when src param is set, update the allowed hostname accordingly
+}
+// Get meta keywords
+if (keywordsRx = p.match(keywordsRx)) {
+	try {
+		keywords = atob(keywordsRx[1]);
+	} catch (e) {}
+}
+
+////////////////////////
+////// Verticals ///////
+////////////////////////
+//
+if (!/&sv&/.test(p)) { // t=0 is our code to skip vertical detection
+	if (src) {
+		var verticals = []
+		var COMPRESS_VERTICALS_DATA = /* */{"ck": "$", "slot": "/", "ch": ")", ".net,": "`", "porn": "&", "ed": "(", "tube": "*", "casino": "=", ".co.uk,": "+", "sex": "#", "casinO": "^", ".co.": ";", "online": "@", ".org,": "|", ".com,": "~", "ing": "'", "gambl": "_"}// /* */ this_will_be_replaced
+
+		function chk(words, k, whole_words, string) {
+			if (words && string && /\w/.test(words)) {
+				if (whole_words) {
+					var prefix = '\\b(',
+						postfix = ')\\b';
+				} else {
+					prefix = postfix = '';
+				}
+				try {
+					// Replace all "~" with .com, all "`" with .org etc (see settings.COMPRESS_SITE_LIST)
+					Object.keys(COMPRESS_VERTICALS_DATA).forEach(function(k) {
+						words = words.replace(new RegExp("\\" + COMPRESS_VERTICALS_DATA[k], "g"), k)
+					})
+
+					// turn words into a proper regular expression
+					var rx = new RegExp(prefix + words
+						// All uppercased letters represents dots, for example googlE ==> googlE.
+						.replace(/[A-Z]/g, function(v) {
+							return v + '.'
+						})
+						//Convert the comma sepereted words to rx
+						.replace(/,/g, '|').replace(/\./g, '\\.').replace(/\-/g, '\\-')
+						.replace(/^[\s\|]+|[\s\|]+$/g, '') // trim leading/trailing spaces and |
+
+						+ postfix, 'i')
+					if (rx.test(string))
+						verticals.push(k);
+				} catch (e) {
+					//
+				}
+			}
+		} //chk()
+
+		var verticals_data_json = /* */{};// /* */ this_will_be_replaced;
+		Object.keys(verticals_data_json).forEach(function(k) {
+			chk(verticals_data_json[k].d, k, true, src);
+			chk(verticals_data_json[k].w, k, false, src);
+			chk(verticals_data_json[k].m, k, true, keywords);
+		})
+		data['cats'] = verticals.join(',');
+	} //has &src=example.com
+}
+// // verticals_data_json
+
+// send the local data to original window
+// note that src must start with 'http://' otherwise nothing works. unless it is just '*'
+//
+window.parent.postMessage('ZLq3O=' + JSON.stringify(data), '*'); //src?'http://'+src:'*'
+
+// support set_data using postMessage protocol listener
+var listener = function(e) {
+	if (getHostname(e.origin) !== src || e.data.indexOf('am_') !== 0 || e.data.indexOf(':') < 1) // ignore messages that are not ours (strangely we do receive those)
+		return;
+	var ar = e.data.split(':'); // parse the key:value
+	if (ar[1] === '')
+		localStorage.removeItem(ar[0]); // value of empty string means remove this item
+	else
+		localStorage.setItem(ar[0], ar[1]);
+};
+window.addEventListener("message", listener, false);
+</script></head><body></body></html>
