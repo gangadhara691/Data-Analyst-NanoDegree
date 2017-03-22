@@ -1,1 +1,10 @@
 http://vita.had.co.nz/papers/tidy-data.pdf
+
+https://github.com/BMPMS/Udacity-RStudio-Red-Wine-Data
+https://github.com/Currie32/Analyzing-Red-Wine..
+https://github.com/Dalaska/Udacity-Red-Wine-Quality
+https://github.com/DariaAlekseeva/Red_and_White_Wine_Quality
+https://github.com/keymanesh/Udacity--Data-Analysis-with-R
+https://github.com/lyvinhhung/Udacity-Data-Analyst-Nanodegree
+https://github.com/patelatharva/ExploratoryDataAnalysis
+https://github.com/pcasaretto/udacity-eda-project
