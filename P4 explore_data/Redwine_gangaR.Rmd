@@ -3,7 +3,183 @@ title: "Redwine_ganga"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r }
+# Load the Data
+redwines<-read.csv('wineQualityReds.csv')
+names(redwines)
+```
+
+```{r}
+dim(redwines)
+str(redwines)
+summary(redwines)
+```
+
+```{r}
+grid.arrange(ggplot(aes(x = 1, y = feature), data = redwines) + 
+               geom_jitter(alpha = 0.1) +
+               geom_boxplot(alpha = 0.2, color = 'red') +
+               stat_summary(fun.y=mean,shape=1,col='red',geom='point') +
+               outlier_line(feature) +
+               ylab(feature_name),
+             ggplot(aes(feature), data = redwines) + 
+               geom_histogram(bins=30) +
+               labs(x = feature_name), ncol=2)
+
+ggplot(aes(x = 1, y = quality), data = redwines) + 
+               geom_jitter(alpha = 0.1) +
+               geom_boxplot(alpha = 0.2, color = 'red') +
+               stat_summary(fun.y=mean,shape=1,col='red',geom='point') +
+               ylab('quality')
+```
+
+redwines<-read.csv('wineQualityReds.csv')
+#redwines$X<-NULL
+class(redwines)
+names(redwines)
+dim(redwines)
+str(redwines)
+summary(redwines)
+```
+
+# Univariate Plots Section
+```{r echo=FALSE, Univariate_Plots}
+for( i in names(redwines)){
+  ggplot(aes(x = 1, y = i), data = redwines) + 
+               geom_jitter(alpha = 0.1)
+}
+
+plotHistFunc <- function(x, na.rm = TRUE, ...) {
+  nm <- names(x)
+  
+  
+  for (i in seq_along(nm)) {
+  print(ggplot(x,aes_string(x = nm[i]))+ geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30)) }
+}
+plotHistFunc <- function(x, na.rm = TRUE, ...) {
+  nm <- names(x)
+  for (i in seq_along(nm)) {
+print(ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")) }
+}
+
+redwines$id<-NULL
+# diff(range(redwines$citric.acid)) / (2 * IQR(redwines$citric.acid) /  (length(redwines$citric.acid))^(1/3))
+# m <- names(redwines)
+# for (i in seq_along(m)){
+# diff(as.numeric(range(m[i])))
+# 
+# }
+diff(range(red$quality))
+plotHistFunc(redwines)
+p1 <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen",binwidth=30) # see previous sections for the scatterPlot
+# Box plot of the x variable
+p2 <- ggplot(x, aes(x))+
+  geom_boxplot(width=0.3)+coord_flip()+
+  transparent_theme
+
+# Create the external graphical elements
+# called a "grop" in Grid terminology
+p2_grob = ggplotGrob(p2)
+
+   
+# Insert p2_grob inside the scatter plot
+xmin <- min(x); xmax <- max(x)
+ymin <- min(y); ymax <- max(y)
+p1 + annotation_custom(grob = p2_grob, xmin = xmin, xmax = xmax, 
+                       ymin = ymin-1.5, ymax = ymin+1.5)
+redwines %>% 
 
 ```
 
+```{r}
+plotHistFunc <- function(x, na.rm = TRUE, ...) {
+  nm <- names(x)
+  
+  
+  for (i in seq_along(nm)) {
+    p1 <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30) # see previous sections for the scatterPlot
+    # Box plot of the x variable
+    p2 <- ggplot(x, aes(factor(1),nm[i]))+
+      geom_boxplot(width=0.3)+coord_flip()+
+      transparent_theme
+    
+    # Create the external graphical elements
+    # called a "grop" in Grid terminology
+    p2_grob = ggplotGrob(p2)
+    
+    
+    # Insert p2_grob inside the scatter plot
+    xmin <- min(nm[i]); xmax <- max(nm[i])
+    ymin<-min(table(cut(nm[i],seq(min(nm[i]),max(nm[i]),dist(as.numeric(range(nm[i])))/30))))
+    ymax<-max(table(cut($nm[i],seq(min(nm[i]),max(nm[i]),dist(as.numeric(range(nm[i])))/30)))) 
+    p1 + annotation_custom(grob = p2_grob, xmin = xmin, xmax = xmax,ymin = ymin, ymax =ymin+ymax*0.2)
+  }
+}
+
+for()
+
+
+cut(redwines,seq(min(redwines$quality),max(redwines$quality),dist(as.numeric(range(redwines$quality)))/30))
+
+plotHistFunc(redwines)
+ggplot(redwines, aes(factor(1), redwines$fixed.acidity))+
+  geom_boxplot(width=0.3)+coord_flip()+
+  transparent_theme
+```
+
+```{r}
+transparent_theme <- theme(
+ axis.title.x = element_blank(),
+ axis.title.y = element_blank(),
+ axis.text.x = element_blank(), 
+ axis.text.y = element_blank(),
+ axis.ticks = element_blank(),
+ panel.grid = element_blank(),
+ axis.line = element_blank(),
+ panel.background = element_rect(fill = "transparent",colour = NA),
+ plot.background = element_rect(fill = "transparent",colour = NA))
+x = redwines$volatile.acidity
+y<-names(redwines)
+for(a in y)
+{
+  a
+}
+
+p1 <- ggplot(redwines,aes(x)) + geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30) # see previous sections for the scatterPlot
+# Box plot of the x variable
+p2 <- ggplot(redwines, aes(factor(1), x))+
+  geom_boxplot(width=0.3)+coord_flip()+
+  transparent_theme
+#p1$count
+# Create the external graphical elements
+# called a "grop" in Grid terminology
+p2_grob = ggplotGrob(p2)
+
+ggplot(redwines,aes()) + geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30)+ 
+facet_wrap(~ variable)
+  transparent_theme
+
+#?geom_boxplot
+# Insert p2_grob inside the scatter plot
+xmin <- min(x); xmax <- max(x)
+ymin<-min(table(cut(x,seq(min(x),max(x),dist(range(x))/30))))
+ymax<-max(table(cut(x,seq(min(x),max(x),dist(range(x))/30)))) 
+p1 + annotation_custom(grob = p2_grob, xmin = xmin, xmax = xmax,ymin = ymin, ymax =ymin+ymax*0.2)
+
+```
+
+```{r}
+
+plots = lapply(seq_along(nm), function(x) ggplot))
+require(gridExtra)
+do.call(grid.arrange,  plots)
+
+
+```
+
+```{r}
+nm<-names(redwines)
+
+plots = lapply(1:12, function(x) ggplot(redwines,aes_string(x = redwines[,i]))+ geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30))
+require(gridExtra)
+do.call(grid.arrange,  plots)
