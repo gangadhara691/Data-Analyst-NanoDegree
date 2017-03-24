@@ -12,7 +12,9 @@ Redwine quality Analysis by Gangadhara Naga Sai
 # install.packages('msme')
 # install.packages('GGally')
 # install.packages('dplyr')
-
+#install.packages('RGraphics')
+library(RGraphics)
+library(gridExtra)
 library(gridExtra)
 library(RColorBrewer)
 library(lattice)
@@ -34,11 +36,11 @@ library(ggplot2)
 
 ```
 
-```{r echo=FALSE, Load_the_Data}
+```{r echo=FALSE, Load_the_Data,summarize data}
 # Load the Data
 
 redwines<-read.csv('wineQualityReds.csv')
-#redwines$X<-NULL
+redwines$X<-NULL
 class(redwines)
 names(redwines)
 dim(redwines)
@@ -56,68 +58,81 @@ summary(redwines)
 transparent_theme <- theme(
  axis.title.x = element_blank(),
  axis.title.y = element_blank(),
- axis.text.x = element_blank(), 
+ axis.text.x = element_blank(),
  axis.text.y = element_blank(),
  axis.ticks = element_blank(),
  panel.grid = element_blank(),
  axis.line = element_blank(),
  panel.background = element_rect(fill = "transparent",colour = NA),
  plot.background = element_rect(fill = "transparent",colour = NA))
+sd_and_outlier <- function(feature) {
+  stdev = sd(feature)
+  outlier = stdev * 3.5 +median(feature)}
 
-HistBox <- function(x, na.rm = TRUE, ...) {
+HistoBox <- function(x,i,l, na.rm = TRUE, ...) {
   
   
-  p1 <- ggplot(redwines,aes(x)) + geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30) # see previous sections for the scatterPlot
+  text<-paste("SD:",round(sd(x[,i]),3),"\n","Outliers are beyond:",round(sd(x[,i]) * 3.5+median(x[,i]),3),l[i])
+  # xmin <- min(x[,i]); xmax <- max(x[,i])
+  #   ymin<-min(table(cut(x[,i],seq(min(x[,i]),max(x[,i]),dist(range(x[,i]))/30))))
+  #   ymax<-max(table(cut(x[,i],seq(min(x[,i]),max(x[,i]),dist(range(x[,i]))/30)))) 
+  
+  m<-names(x)
+  bw <- diff(range(x[,i])) / (2 * IQR(x[,i]) / length(x[,i])^(1/3))
+  
+  p1 <- ggplot(x,aes(x[,i])) + geom_histogram(colour="black",alpha = 1,fill =  "#993366",bins=bw)+
+    theme( axis.title.x = element_blank())
+    
+  #+annotate("text", x = xmax/2, y = ymax, label = a)# see previous sections for the scatterPlot
   # Box plot of the x variable
-  p2 <- ggplot(redwines, aes(factor(1), x))+
-    geom_boxplot(width=0.3)+coord_flip()+
-    transparent_theme
-  #p1$count
-  # Create the external graphical elements
-  # called a "grop" in Grid terminology
-  p2_grob = ggplotGrob(p2)
-  
-  ggplot(redwines,aes()) + geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30)+ 
-    facet_wrap(~ variable)
-  transparent_theme
-  
-  #?geom_boxplot
-  # Insert p2_grob inside the scatter plot
-  xmin <- min(x); xmax <- max(x)
-  ymin<-min(table(cut(x,seq(min(x),max(x),dist(range(x))/30))))
-  ymax<-max(table(cut(x,seq(min(x),max(x),dist(range(x))/30)))) 
-  p1 + annotation_custom(grob = p2_grob, xmin = xmin, xmax = xmax,ymin = ymin, ymax =ymin+ymax*0.2)
+ 
+  p3 <- splitTextGrob(text)
+  p2 <- ggplot(redwines, aes(factor(1), x[,i]))+geom_jitter(alpha = 0.2,color='#993366')+ geom_boxplot(alpha = 0.2, color ='black')+stat_summary(fun.y=mean,shape=1,col='red',fill='red',geom='point')+
+    geom_hline(yintercept = (median(x[,i]) + sd(x[,i])*3.5),
+                     alpha = 1/3, linetype = 3)+
+    coord_flip()+ labs(y =m[i])
+  #transparent_theme
+  return (grid.arrange(p1,p2,p3,heights=c(2,2,2)))
+    #grid.arrange(arrangeGrob(p1,p2,ncol=1),widths=c(4,1),p3,ncol=2))
+    #grid.arrange(p1,p2,p3,layout_matrix=(cbind(c(1,2), c(3,3)))))
 }
 
-
-
-
+HistoBox(redwines,5,comments)
 
 ```
 
-```{r}
 
-x = redwines$volatile.acidity
-y<-names(redwines)
-for(a in y)
-{
-  a
-}
-
-
-```
 
 ```{r}
 
-plots = lapply(seq_along(nm), function(x) HistBox(redwines[,x]))
+
+
+m<-names(redwines)
+plots = lapply(seq_along(m), function(x) HistoBox(redwines[,x],comments))
 require(gridExtra)
-do.call(grid.arrange,  c(plots,ncol=2))
+do.call(grid.arrange,  c(plots,ncol=1))
 
-lapply(seq_along(nm), function(x) HistBox(redwines[,x]))
+lapply(seq_along(nm), function(i) HistoBox(redwines,i,comments))
+
+
 ```
 
 ```{r}
-
+comments <-list("Fixed acidity has a long-tail distribution, with a few outliers having a value greater than 14. The log10 plot does not reveal any new findings, although is does normalize the distribution.","Similar to fixed acidity, volatile acidity also has a long tail distribution. However, when we look at its log10 plots, we can see that the distribution looks a little binominal."
+,"Given that citric acid has quite a long-tail distribution, I thought it would be worthwhile to scale the x-axis by log10. Looking at this new distribution it is interesting to that the distribution has switched from a long-right-tail to a long-left-tail distribution. It will be interesting to compare the original with the log10 transformation in the bivariate analysis."
+,"Residual sugar has a very long-tail distribution with many outliers. Some of these outliers are more than 9 standard deviations away from the median! It will be interesting to see how these outliers affect the quality of wine. In the second plot, the top five percent of data points were removed to have a better understanding of core of the data. In the log10 plots, the values are still very skewed, but it looks more like a normal distribution."
+,"Very similar to residual sugar, chlorides have a strong concentration of points around the median, as well as many outliers. The more extreme outliers are as much as 11 standard deviations away from the mean. In the second plot, the top two percent of data points were removed to help understand the distribution of points around the median. In the log10 plots, we can see that the data still has a long-tail skew, but looks more normally distributed. It is interesting to see the two outliers at the bottom of the box plot as a result of the transformation."
+,"Free sulfur dioxide has a rather dispersed distribution as its interquartile range is rather large, relative to the previous features we have looked at. When taking a look at its log10 plot, it appears to be binomial, and the number of outliers has been greatly reduced."
+,"Total sulfur dioxide is similar in ways to free sulfur dioxide. I would argue that its points are not quite a dispersed, as there are fewer outliers and its interquartile range does not look quite as large. It also has a long-tail distribution, but when we look at its log10 plot, the points are rather normally distributed"
+,"Density has a very normal looking distribution with most of the values falling between 0.995 and 1. For comparison, water has a density of 1, so most of our wine is less dense than water. There are very few outliers."
+,"Another normal looking distribution, with most of the pH values falling between 3.1 and 3.5. For more comparison, water is generally between 6.5 and 8.5, while vinegar is typically between 2.2 and 2.4. Much like with density, there are very few outliers."
+,"Although sulphates is more long-tail than density and pH, it still looks rather normally distributed, as most of the values are clustered around 0.6. An interesting point about sulphates, is that some of its outliers are very far away from the outlier line, as much as 8.14 standard deviations away from the median! It will be interesting to see how that affects the quality of wine. Looking at its log10 plots, sulphates is much more normally distributed, and there are still some outliers, despite the transformation."
+,"Alcohol has a long-tail distribution, with there only being a few outliers. Looking at the log10 plots does not reveal many new insights, except that it still has a long-tail distribution and looks oddly like the original plots. Most wines have less than 11% alcohol."
+,"Quality is on a 1-10 scale, which means that most of the wines we will look at in the analysis are average wines. It will be interesting to try to find what can make a wine very good or very bad, and to see if there is much correlation between the variables."
+)
+comments[1]
+# ,"Total acidity has a distribution very similar to fixed acidity, which makes sense because that is what makes up most of the total acidity. Values typically fall between 7 and 10, with there being few outliers. As expected, the log10 plots are also similar to fixed acidity, as the distribution is normalized, and there are very few outliers"
+# ,"Bound sulfur dioxide has a distribution similar to total sulfur dioxide, as most of it is made of bound sulfur dioxide. Its values seem to be centered around 20, but there are a couple extreme outliers, 8.5 standard deviations away from the median. I wonder if these relate in any way to the extreme outliers from the sulphates data points. The log10 plots do not look as binomial when compared to the total sulfur dioxide plots. "
 ```
 
 # Univariate Analysis
