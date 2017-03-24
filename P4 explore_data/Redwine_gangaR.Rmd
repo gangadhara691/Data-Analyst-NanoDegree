@@ -33,6 +33,12 @@ ggplot(aes(x = 1, y = quality), data = redwines) +
                ylab('quality')
 ```
 
+```{r}
+ggplot(aes(x=log(price)),data=diamonds)+geom_histogram(aes(fill = factor(cut)))+
+  scale_fill_brewer(type = 'qual')+
+  facet_wrap(~ diamonds$color)
+```
+
 redwines<-read.csv('wineQualityReds.csv')
 #redwines$X<-NULL
 class(redwines)
@@ -183,3 +189,28 @@ nm<-names(redwines)
 plots = lapply(1:12, function(x) ggplot(redwines,aes_string(x = redwines[,i]))+ geom_histogram(alpha = .5,fill = "mediumseagreen",bins=30))
 require(gridExtra)
 do.call(grid.arrange,  plots)
+
+
+
+```
+
+```{r}
+boxo_hist<- function(df,i,na.rm=TRUE,...){
+  m<-names(df)
+  bw <- diff(range(df[,i])) / (2 * IQR(df[,i]) / length(df[,i])^(1/3))
+  return (grid.arrange(  ggplot(aes(df[,i]), data = df) + 
+               geom_histogram(bins=30,color='black',fill='#993366') +
+               labs(x = m[i]),ggplot(aes(x = 1, y = df[,i]), data = wine) + 
+               geom_jitter(alpha = 0.1,color = 'maroon') +
+               geom_boxplot(alpha = 0.2, color = 'black') +
+               stat_summary(fun.y=mean,shape=2,col='red',geom='line') +
+               outlier_line(df[,i]) +
+               ylab(m)+coord_flip(),
+            ncol=1))
+}
+ggplot(redwines, aes(factor(1), redwines$fixed.acidity))+
+    geom_boxplot(width=0.3,alpha = 0.5, color ='#993366')+stat_summary(fun.y=mean,shape=1,col='red',geom='point')+
+    coord_flip()
+boxo_hist(redwines,5)
+```
+
