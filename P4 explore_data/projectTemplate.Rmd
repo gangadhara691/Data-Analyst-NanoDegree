@@ -7,14 +7,14 @@ Redwine quality Analysis by Gangadhara Naga Sai
 # install.packages('MASS')
 # install.packages('memisc')
 # install.packages('COUNT')
-# 
+# install.packages('corrplot')
 # install.packages('sandwich')
 # install.packages('msme')
 # install.packages('GGally')
 # install.packages('dplyr')
 #install.packages('RGraphics')
 library(RGraphics)
-
+library(corrplot)
 library(gridExtra)
 library(RColorBrewer)
 library(lattice)
@@ -138,11 +138,11 @@ comments <-list("Fixed acidity is slightly a skewed Normal distribution."
                 ,"Similar to fixed acidity's distibution,since fixed acidity comprises the most.Total acidity values typically fall between 7 and 10 and there are very few outliers."
                 ,"combined sulfur dioxide has a distribution similar to total sulfur dioxide."
                 )
-
-redwines$total.acidity<-redwines$fixed.acidity+redwines$volatile.acidity
-redwines$combined.sulphur.dioxide<-redwines$total.sulfur.dioxide-redwines$free.sulfur.dioxide
-redwines<-redwines[,c(1:11,13,14,12)]
-lapply(1:13, function(i) HistoBox(redwines,i,comments))
+redwinesx<-redwines
+redwinesx$total.acidity<-redwines$fixed.acidity+redwines$volatile.acidity
+redwinesx$combined.sulphur.dioxide<-redwines$total.sulfur.dioxide-redwines$free.sulfur.dioxide
+redwinesx<-redwinesx[,c(1:11,13,14,12)]
+lapply(1:13, function(i) HistoBox(redwinesx,i,comments))
 ggplot(aes(quality), data = redwines) +geom_bar(colour="black",alpha = 1,fill =  "#993366")
 
 ```
@@ -158,21 +158,33 @@ summary(redwines$quality)
 # Univariate Analysis
 
 ### What is the structure of your dataset?
->Data set is regarding the wine quality and several chemical componets that it contains.there ae 1599 samples of wine with 11 variables of type numeric and 1 rating factor quality of type int given by 3 wine experts according to their knowledge and experience.Quality ranges from 0 to 10 but our data has least quality of 3 and highest quality of 8. Lets find out what are the main deciding factors for high quality wine. 
+>Data set is regarding the wine quality and several chemical componets that it contains.there ae 1599 samples of wine with 10 variables(fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfer dioxide, density, pH, sulphates, alcohol, quality) of type numeric and 1 rating factor quality of type int.  
 
 ### What is/are the main feature(s) of interest in your dataset?
+>Quality is the main feature of insterest ,given by 3 wine experts according to their knowledge and experience.Quality ranges from 0 to 10 but our data has least quality of 3 and highest quality of 8. Lets find out what are the main deciding factors for high quality wine.
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
+>There can lot more features since in real world so many factors affect the quality of Red wine.
+>>Type of grapes used
+>>flavor (like combination of different ingredients)
+>>Color
+>>taste(sweet,sour,bitter,etc)
+>>total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
 
 ### Did you create any new variables from existing variables in the dataset?
+>Yes , i made total.acidity and combined.sulphur.dioxide, which may show some unseen trends.
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
+>Volatile acidity is having a bimodal distribution and Citric acid has quite a long-tail distribution.But it is not a Normal Distribution.
+>the data was already tidy so there was no requirement for any adjustment.
 
 
 
 # Bivariate Plots Section
-```{r echo=FALSE, Bivariate_Plots}
+## By using correlation we can find out some important insights among variables
 
+```{r echo=FALSE, Bivariate_Plots}
+corrplot.mixed(redwines)
 ```
 
 # Bivariate Analysis
