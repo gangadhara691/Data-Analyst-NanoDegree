@@ -221,7 +221,7 @@ Boxinscatter <- function(x,i,l,factor, na.rm = TRUE, ...) {
     ylab(m[i])+xlab(factor)+theme(text = element_text(size=15))
   
   a<-paste(with(data=x,cor.test(x[,i],x[,factor])))
-  b<-paste(l[i],a[7]," with ","t is equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+  b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
   
   
   p3 <- splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc"))
@@ -230,31 +230,32 @@ Boxinscatter <- function(x,i,l,factor, na.rm = TRUE, ...) {
   
 }
 #a<-paste(with(data=x,cor.test(x[,i],x[,factor])))
-commentz<-list("There positive correlation between fixed acidity and quality. The outliers fall in wine of quality 7 and 5, and none feel in the lowest quality wines."
-               ,"We can see Negitive correlation in the trend here."
-               ,"It is clear that  more citric acid higher the quality ,There are no wines of quality 8 that have no citric acid"
+commentz<-list("There positive correlation between fixed acidity and quality. The outliers fall in wine of quality 7 and 5."
+               ,"We can see Negitive correlation is the trend here."
+               ,"It is clear that  more citric acid higher the quality ,There are no wines of quality 8 that have no citric acid."
                ," Their is a very weak correlation between residual sugar and quality of wine shows here. Its correlation is also very close to zero."
-               ,"A weak negetive correlation is seen "
-               ,"There is not quite a trend seen as the median increases and decreases.It shows free.sulphur.dioxide is not good indicator of quality"
+               ,"A weak negetive correlation is seen."
+               ,"There is not quite a trend seen as the median increases and decreases.It shows free.sulphur.dioxide is not good indicator of quality."
                ,"Oberving a negetive correlation.The outliers are present at quality 7,  less total sulfur dioxide leads to better wine."
-               ,"A weak negitive correlation is seen.Trend between quality and less density goes down."
+               ,"A weak negitive correlation is seen.Trend between quality of wine and density goes down."
                ,"Again negitive correlation as pH is low it is more acidic, so the wine with lower pH seems to have good quality"
                ,"Positive correlation, but for best quality suphate should be more than 0.5 and less than 1.5."
-               ,"A very high correlation is seen ,higher alcohol content will give high quality "
-               ,"A weak positive correlation is seen and very similar to fixed acidity"
+               ,"A very high correlation is seen ,higher alcohol content will give high quality  wine."
+               ,"A weak positive correlation is seen and very similar to fixed acidity."
                ,"It seems there is a negitive correlation ,but the median increases and decreases.")
 
-#Boxinscatter(redwines,2,commentz,'quality')
-lapply(1:12, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
+#Boxinscatter(redwinesx,13,commentz,'quality')
+lapply(1:13, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
 
    # Boxinscatter(redwines,9)
 ```
+
 ```{r}
 
 scatter_smooth<- function(df,i,l,factor, na.rm = TRUE, ...){
   m<-names(df)
  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
-b<-paste(l[i],a[7]," with ","t is equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
 
 grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
   geom_point(alpha=0.3,color="#993366") +
@@ -270,10 +271,10 @@ grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("It's evident in the graph that for majority of values of chlorides(from 0.07 to 0.09), the density is positively correlated with chlorides."
-               ,"As evident in the scatter plot, the density of wine is inversely proportional to the amount of alcohol present in it."
-               ,"It's evident in the graph that for majority of values of citric.acid(from 1.9 to 2.6), the density is positively correlated with citric acid."
-               ,"It's evident in the graph that for majority of values of residual.sugar(from 1.9 to 2.6), the density is positively correlated with residual sugar"
+commentz<-list("From the graph chlorides ranges from 0.07 to 0.09, the density is positively correlated with chlorides."
+               ,"The density of wine is inversely proportional to the alcohol present in it."
+               ,"From the graph citric.acid ranges from 1.9 to 2.6, the density is positively correlated with citric acid."
+               ,"The density is positively correlated with residual sugar."
 )
 redensity<-redwines[,c("chlorides","alcohol","citric.acid","residual.sugar","density")]
 lapply(1:4, function(i) scatter_smooth(redensity,i,commentz,'density') )
@@ -281,17 +282,17 @@ lapply(1:4, function(i) scatter_smooth(redensity,i,commentz,'density') )
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("The pH is positively correlated with the volatile.acidity."
+commentz<-list("pH is positively correlated with  volatile.acidity."
                
-               ,"As evident in the scatter plot and strong negative correlation coefficient, pH of wine is inversely proportional to the fixed acidity."
+               ,"From scatter plot  high negative correlation coefficient is seen, pH of wine is inversely proportional to the fixed acidity."
                ,"pH is negatively correlated with total acidity of wine.")
 redpH<-redwinesx[,c("volatile.acidity","fixed.acidity","total.acidity","pH")]
 lapply(1:3, function(i) scatter_smooth(redpH,i,commentz,'pH') )
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("citric.acid is inversely related with volatile.acidity. It might be the case that during wine preparation, not too much volatile acidity will be added if there is already good amount of fixed acidity present due to citric acid. This will help keeping the total acidity of wine to acceptible level."
-               ,"citric.acid is positively correlated with fixed.acidity. Intuitively, as more citric acid is added to the wine, it's fixed acidity increases."
+commentz<-list("citric.acid is inversely related with volatile.acidity."
+               ,"citric.acid is positively correlated with fixed.acidity. More the citric acid is added to the wine,fixed acidity increases."
                ,"Very similar to fixed acidty.")
 redcitric<-redwinesx[,c("volatile.acidity","fixed.acidity","total.acidity","citric.acid")]
 lapply(1:3, function(i) scatter_smooth(redcitric,i,commentz,'citric.acid') )
