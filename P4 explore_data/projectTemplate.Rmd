@@ -7,7 +7,7 @@ Redwine quality Analysis by Gangadhara Naga Sai
 # install.packages('MASS')
 # install.packages('memisc')
 # install.packages('COUNT')
-# install.packages('corrplot')
+ #install.packages('corrplot')
 # install.packages('sandwich')
 # install.packages('msme')
 # install.packages('GGally')
@@ -42,12 +42,13 @@ knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
 # download.file("https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityReds.csv","wineQualityReds.csv",method="curl")
 redwines<-read.csv('wineQualityReds.csv')
 redwines$X<-NULL
+print("Names of variables ")
 names(redwines)
-
+print("Dimensions of wine data")
 dim(redwines)
-
+print("Structure of wine data")
 str(redwines)
-
+print("Summary of Redwine data")
 summary(redwines)
 ```
 
@@ -75,12 +76,13 @@ Mode <- function(x) {
 }
 HistoBox <- function(x,i,l, na.rm = TRUE, ...) {
   m<-names(x)
-  
+  heading<-paste("Histogram and Boxplot of ",m[i])
   
   #Histogram of the variable x
   p1 <- ggplot(x,aes(x[,i],y=..density..))+
     geom_histogram(colour="black",alpha=1,fill="#993366",bins=30)+
-    geom_line(stat='density',color="black",linetype = 2)+
+    geom_line(stat='density',color="black",linetype = 2)+ ggtitle(heading) + 
+     theme(plot.title = element_text(lineheight=.8, face="bold"))+
     theme( axis.title.x = element_blank())
   
   
@@ -104,6 +106,7 @@ p2 <- ggplot(redwines, aes(factor(1), x[,i]))+
     
   return(grid.arrange(p1,p2,p3))
 }
+
 
 
 ```
@@ -197,6 +200,7 @@ corrplot(cor(redwines), method="color", col=col(200),
          diag=FALSE 
          )
 c<-cor(redwines)
+print("Correlation among the variables")
 sort(c[,12])
 
 
@@ -209,7 +213,7 @@ sort(c[,12])
 ```{r message=FALSE, echo=FALSE, results='hide'}
 Boxinscatter <- function(x,i,l,factor, na.rm = TRUE, ...) {
   m<-names(x)
-  
+ heading<-paste(" BoxinScatter: \n",m[i]," vs ",factor)
   
   #Histogram of the variable x
   p1 <-ggplot(aes(factor(x[,factor]), x[,i]), data = x) +
@@ -218,7 +222,8 @@ Boxinscatter <- function(x,i,l,factor, na.rm = TRUE, ...) {
     stat_summary(fun.y = "median",geom = "point",color = "red",shape = 18,size = 4)+
     geom_smooth(aes(x[,factor]-2, x[,i]),method = "lm",se = FALSE,size=1,color = 'red',linetype=2) +
     geom_hline(yintercept = (median(x[,i]) + sd(x[,i])*3.5),linetype = 4) +
-    ylab(m[i])+xlab(factor)+theme(text = element_text(size=15))
+    ylab(m[i])+xlab(factor)+theme(text = element_text(size=13))+ ggtitle(heading) + 
+     theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
   
   a<-paste(with(data=x,cor.test(x[,i],x[,factor])))
   b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
@@ -254,13 +259,15 @@ lapply(1:13, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
 
 scatter_smooth<- function(df,i,l,factor, na.rm = TRUE, ...){
   m<-names(df)
+  heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
 b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
 
 grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
   geom_point(alpha=0.3,color="#993366") +
     geom_smooth()+ylab(factor)+xlab(m[i])+
-    theme(text = element_text(size=15))
+    theme(text = element_text(size=13))+ ggtitle(heading) + 
+     theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
   ,splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc")),heights=c(3,1))
 
 }
