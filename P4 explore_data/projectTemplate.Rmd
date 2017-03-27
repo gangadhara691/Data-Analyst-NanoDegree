@@ -385,22 +385,24 @@ lapply(1:10,function(i) lapply(i:10, function(j) scatter(redwines,names(redwines
 
 
 ```
+
+
 After visualizing the above plots i am interested in few plots below
 
-```{r}
+```{r message=FALSE, echo=FALSE, results='hide'}
 names(redwines)
 scatter(redwines,"total.sulfur.dioxide"  ,2)
 ```
 >The region near to origin seems crowded with high quality wine.Low volatile.acidity and low total.sulfur.dioxide indicates high quality wine.
 
-```{r}
+```{r message=FALSE, echo=FALSE, results='hide'}
 scatter(redwines,"density"  ,10)
 
 ```
 Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
 
 
-```{r}
+```{r message=FALSE, echo=FALSE, results='hide'}
 scatter(redwines,"fixed.acidity"  ,7)
 
 ```
@@ -452,7 +454,7 @@ summary(redwines$quality)
 
 
 ### Plot Three
-```{r echo=FALSE, Plot_Three}
+```{r echo=FALSE, Plot_Three,results="hide"}
 scatter_smooth(redwines,11,"",'density') 
 
 scatter(redwines,"density",10)
