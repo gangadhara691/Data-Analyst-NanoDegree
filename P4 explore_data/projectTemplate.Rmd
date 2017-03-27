@@ -322,12 +322,14 @@ with  correlation coefficient of 0.04.
 
 ### What was the strongest relationship you found?
 > correlation of quality with other variables
-> volatile.acidity      total.sulfur.dioxide           density           chlorides 
-         -0.39055778          -0.18510029          -0.17491923          -0.12890656 
-                  pH  free.sulfur.dioxide       residual.sugar        fixed.acidity 
-         -0.05773139          -0.05065606           0.01373164           0.12405165 
-         citric.acid            sulphates              alcohol              quality 
-          0.22637251           0.25139708           0.47616632           1.00000000 
+
+```{r, echo = FALSE }
+c<-cor(redwines)
+print("Correlation among the variables with quality")
+sort(c[,12])
+
+```
+
 > From the correlations we can clearly see alcohol positiely and volatile.acidity negitively  are having a strong relation with quality.
 >And density and fixed acidity have a strong correlation.
 
@@ -462,7 +464,7 @@ scatter(redwines,"density",10)
 ```
 
 ### Description Three
-> Since all the of the above are the similar plots of same variables,
+> Since all of the above are the similar plots of same variables,
 > The density of wine is inversely proportional to the alcohol present in it from scatter_smooth plot.There are few concentrations of quality 8 in scatter plot where high alcohol content and low density of wine.
 
 
