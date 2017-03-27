@@ -253,7 +253,7 @@ commentz<-list("There positive correlation between fixed acidity and quality. Th
 #Boxinscatter(redwinesx,13,commentz,'quality')
 lapply(1:13, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
 
-   # Boxinscatter(redwines,9)
+   
 ```
 
 ```{r}
@@ -261,7 +261,9 @@ lapply(1:13, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
 scatter_smooth<- function(df,i,l,factor, na.rm = TRUE, ...){
   m<-names(df)
   heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
+  
  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
+ 
 b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
 
 grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
@@ -333,37 +335,12 @@ with  correlation coefficient of 0.04.
 
 # Multivariate Plots Section
 
-```{r echo=FALSE, Multivariate_Plots}
-scatter<- function(df,factor1, factor2){
-  #  m<-names(df)
-  #   heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
-  #  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
-  # b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3)) 
-  p1<-ggplot(aes(df[,factor1], df[,factor2], color = factor(quality)), data = df) +
-    geom_jitter(size = 1.5,alpha = .5,fill='#993366')+
-    scale_color_brewer(type="seq",guide=guide_legend(title='Quality'),palette=11)+
-     geom_smooth(se = FALSE)+xlab(factor1) +
-    ylab(factor2) +  theme(panel.background = element_rect( fill = "grey80"))
-  
-  print(ggplot(aes(df[,factor1], df[,factor2], color = factor(quality)), data = df) +
-    geom_jitter(size = 1.5) +
-  scale_color_brewer(type="qual"))
-  
-  p1+facet_wrap(~quality,ncol=2)  
-  #grid.arrange(p1)
-}
-#?scale_color_brewer
-# ?ggplot
-# ?geom_smooth
-scatter(redwines,"volatile.acidity","alcohol")
-scatter(redwines$alcohol, "alcohol", redwines$volatile.acidity, "volatile acidity",11)
-lapply(1:8, function(i) scatter(redwines,"volatile.acidity","alcohol",i))
+## The below plots are large in number,since i believe in exploratory data analysis one must visualize,then only hidden trends can be found ,so i have plotted all the scatter plots of all combinations by factorizing quality.
 
 
-```
 
+```{r message=FALSE, echo=FALSE, results='hide'}
 
-```{r}
 scatter<- function(df,factor1,i){
  
  drops <- c(factor1)
@@ -371,85 +348,81 @@ df1<-df[ , !(names(df) %in%  drops)]
 
  
  m<-names(df1)
-#   heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
-#  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
-# b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3)) 
-p1<-ggplot(aes(df[,factor1], df1[,i], color = factor(quality)),data=df1) +
-  geom_jitter(size = 1.5, alpha = .3,color='#993366') +
-  scale_color_brewer(type='seq', 
-                     guide=guide_legend(title='Quality'),
-                     palette = 11) +
-  geom_smooth(se = FALSE) +
+  heading<-paste(" Scatter plot: \n",m[i]," vs ",factor1)
+  headings<-paste(" facet_scatter_smooth: \n",m[i]," vs ",factor1)
+  a<-paste(with(data=df,cor.test(df1[,i],df[,factor1])))
+  b<-paste(a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+  
+  p0<-ggplot(aes(df[,factor1], df1[,i], color = factor(quality)), data = df1) +    geom_jitter(size = 2,alpha=0.8) +
+    scale_color_brewer(type='seq',
+                       guide=guide_legend(title='Quality'),
+                       palette = 3)+scale_fill_manual(values = colours)+xlab(factor1) +
+    ylab(m[i])+  theme(panel.background = element_rect( fill = "grey90"))+ ggtitle(heading) +
+    theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
+  
+  p3<-splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc"))
+  
+  p1<-ggplot(aes(df[,factor1], df1[,i], color =factor(quality)),data=df1) +
+    geom_jitter(size = 1.5, alpha = .4,color='#993366') +
+    scale_color_brewer(type='seq',
+                       guide=guide_legend(title='Quality'),
+                       palette = 3) +
+    geom_smooth(se = FALSE,method="lm") +
     xlab(factor1) +
-    ylab(m[i]) +  theme(panel.background = element_rect( fill = "grey80"))
-
-
-  p1+facet_wrap(~quality,ncol=2)
- # grid.arrange(p1)
+    ylab(m[i]) +  theme(panel.background = element_rect( fill = "grey85"))+ggtitle(headings) +
+    theme(plot.title = element_text(lineheight=.8, face="bold",size = 13))
+  
+  
+  p2<-p1+facet_wrap(~quality,ncol=2)
+  grid.arrange(p0,p3,heights=c(4,1))
+  grid.arrange(p2)
+  paste(heading)
 }
 
-#?theme
-# ?ggplot
-# ?geom_smooth
-##scatter(redwines$alcohol, "alcohol", redwines$volatile.acidity, "volatile acidity",11)
-scatter(redwines, "alcohol",10)
-lapply(1:10, function(i) scatter(redwines, "alcohol",i))
-redwines1<- redwines[,!c("alcohol")]
-drops <- c("alcohol","quality")
-redwines1<-redwines[ , !(names(redwines) %in%  drops)]
-redwines1
-redwines<-redwines[ ,  drops]
-redwines1
-refcols <- c("Trader", "System")
- #
- trading <- trading[, c(refcols, setdiff(names(trading), refcols))]
- names(trading)
-dim(redwines1)
-ggplot(aes(redwines$fixed.acidity, redwines$density, color = factor(quality)),data=redwines1) +
-  geom_jitter(size = 1.5, alpha = .3,color='#993366')+facet_wrap(~quality,ncol=2) + geom_smooth(se = FALSE)
-redwines1
+
+lapply(1:10,function(i) lapply(i:10, function(j) scatter(redwines,names(redwines)[i],j)))
+
+
 
 ```
+After visualizing the above plots i am interested in few plots below
+
+```{r}
+names(redwines)
+scatter(redwines,"total.sulfur.dioxide"  ,2)
+```
+>The region near to origin seems crowded with high quality wine.Low volatile.acidity and low total.sulfur.dioxide indicates high quality wine.
+
+```{r}
+scatter(redwines,"density"  ,10)
+
+```
+Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
 
 
 ```{r}
-scatter<- function(df,factor1,i){
-  #  m<-names(df)
-  #   heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
-  #  a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
-  # b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3)) 
-  p1<-ggplot(aes(df[,factor1], df[,i], color = factor(quality)), data = df) +
-    geom_jitter(size = 1.5,alpha = .5,fill='#993366')+
-    scale_color_brewer(type="seq",guide=guide_legend(title='Quality'),palette=11)+
-     geom_smooth(se = FALSE)+xlab(factor1) +
-    ylab(df[,i]) +  theme(panel.background = element_rect( fill = "grey80"))
-  
-  p2<-ggplot(aes(df[,factor1], df[,i], color = factor(quality)), data = df) +
-    geom_jitter(size = 1.5) +
-  scale_color_brewer(type="qual")
-  
-  p0<-p1+facet_wrap(~quality,ncol=2)  
-  print(p0)
-  print(p2)
-  
-  #grid.arrange(p1)
-}
-#?scale_color_brewer
-# ?ggplot
-# ?geom_smooth
-#scatter(redwines,"volatile.acidity","alcohol")
-#scatter(redwines$alcohol, "alcohol", redwines$volatile.acidity, "volatile acidity",11)
-lapply(1:8, function(i) scatter(redwines,"volatile.acidity",i))
+scatter(redwines,"fixed.acidity"  ,7)
 
 ```
+>there is a strong correlation between fixed.acidity  and  density.Cant conclude on this due to insufficient data.
+
+
 
 # Multivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
+> alcohol and volatile acidity are having a strong correlation with quality.less volatile acidity, and more alcohol gives better wine.
+> Sulphates range from 0.5 to 1.5 & chlorides from 0.1 to 1.5 gives a high quality wine. This suggests that there is an optimal range for volumes of these two features to make the best wine.
+
+> citric acid and volatile acidity did not give any usefulresults. 
 
 ### Were there any interesting or surprising interactions between features?
+> There is a strong correlation between fixed.acidity  and  density.But the reason is unknown, might be depending on the propeties of wine we can conclude on it.
 
-### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
+> NO correlation between residual sugar and quality of wine.
+
+> I was expecting a close relation between sulphur and sulphur dioxide,there seems no relation
+with  correlation coefficient of 0.04.
 
 ------
 
@@ -457,27 +430,58 @@ lapply(1:8, function(i) scatter(redwines,"volatile.acidity",i))
 
 ### Plot One
 ```{r echo=FALSE, Plot_One}
+ggplot(aes(quality), data = redwines) +geom_bar(colour="black",alpha = 1,fill =  "#993366")
+summary(redwines$quality)
 
 ```
 
 ### Description One
+> Quality ranges from 0 to 10,but in data minimum is 3 and maximum is 8, which means that most of the wines we will look at in the analysis are average wines, wines 5,6 constitute of 80% of wines, while  wines 7,8 only contribute 10% or more of the wine data. Due to lack of data on high quality wine we cant contribute to understand what are the main composition which leads to high quality wine.
 
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
+ Boxinscatter(redwines,11,"","quality")
+    
 
 ```
 
 ### Description Two
+> "A very high correlation is seen ,higher alcohol content will give high quality  wine.Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
+
 
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
+scatter_smooth(redwines,11,"",'density') 
+
+scatter(redwines,"density",10)
 
 ```
 
 ### Description Three
+> Since all the of the above are the similar plots of same variables,
+> The density of wine is inversely proportional to the alcohol present in it from scatter_smooth plot.There are few concentrations of quality 8 in scatter plot where high alcohol content and low density of wine.
+
+
+
 
 ------
 
 # Reflection
+> Starting from the histograms and box plots we could keenly see the distribution of points.Some were normal distributions and few were bimodal distributuions.
+
+> In bivariate analysis combination of boxplot and scatterplot gave a keen idea how each variable is correlated to each other and mainly to our feature of interest quality.
+
+> Multivariate analysis has taken a further step from bivariate analysis to get insight on quality of wine.And we understood that for a specific range of chemical component we can have high quality of wine. Sulphates range from 0.5 to 1.5 & chlorides from 0.1 to 1.5 gives a high quality wine. This suggests that there is an optimal range for volumes of these two features to make the best wine.
+
+> As the data was tidy already there was no need for data wrangling.
+
+> For future analysis i would like to collect data on few features listed below
+>> Since in real world so many factors affect the quality of Red wine.
+>> Type of grapes used
+>> flavor (like combination of different ingredients)
+>> Color
+>> taste(sweet,sour,bitter,etc)
+>> total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
+>> Does cost of wine is dependent on quality ? then can we find a way to make better wine with less cost my understanding its relation with all the factors in real world? 
