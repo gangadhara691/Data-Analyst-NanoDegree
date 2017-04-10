@@ -481,11 +481,32 @@ scatter(redwines,"density",10)
 
 > As the data was tidy already there was no need for data wrangling.
 
-> For future analysis i would like to collect data on few features listed below
->> Since in real world so many factors affect the quality of Red wine.
->> Type of grapes used
->> flavor (like combination of different ingredients)
->> Color
->> taste(sweet,sour,bitter,etc)
->> total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
->> Does cost of wine is dependent on quality ? then can we find a way to make better wine with less cost my understanding its relation with all the factors in real world? 
+> For future analysis i would like to collect data on few features listed below+
+
+> Since in real world so many factors affect the quality of Red wine.
+
+> Type of grapes used
+
+> flavor (like combination of different ingredients)
+
+> Color
+
+> taste(sweet,sour,bitter,etc)
+
+> total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
+
+> Does cost of wine is dependent on quality ? then can we find a way to make better wine with less cost my understanding its relation with all the factors in real world? 
+
+--------
+# References
+> https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+> https://www.r-bloggers.com/ggplot2-graphics-in-a-loop/
+
+> http://rstudio-pubs-static.s3.amazonaws.com/3355_d3f08cb2f71f44f2bbec8b52f0e5b5e7.html
+ 
+> http://www.sthda.com/english/wiki/ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page-r-software-and-data-visualization
+ 
+> https://www.analyticsvidhya.com/blog/2016/01/guide-data-exploration/
+
+--------------------------------------------------------- X ----------------------------------------------------------------
