@@ -37,9 +37,55 @@ knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
 
 ```
 
+
+## Introduction Of Dataset.
+Citation:
+ P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. 
+  Modeling wine preferences by data mining from physicochemical properties.
+  In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.
+
+  Available at: [@Elsevier] http://dx.doi.org/10.1016/j.dss.2009.05.016
+                [Pre-press (pdf)] http://www3.dsi.uminho.pt/pcortez/winequality09.pdf
+                [bib] http://www3.dsi.uminho.pt/pcortez/dss09.bib
+
+1. Title: Wine Quality 
+
+2. Sources
+   Created by: Paulo Cortez (Univ. Minho), Antonio Cerdeira, Fernando Almeida, Telmo Matos and Jose Reis (CVRVV) @ 2009
+   
+3. Description of attributes:
+
+   1 - fixed acidity: most acids involved with wine or fixed or nonvolatile (do not evaporate readily)
+
+   2 - volatile acidity: the amount of acetic acid in wine, which at too high of levels can lead to an unpleasant, vinegar taste
+
+   3 - citric acid: found in small quantities, citric acid can add 'freshness' and flavor to wines
+
+   4 - residual sugar: the amount of sugar remaining after fermentation stops, it's rare to find wines with less than 1 gram/liter and wines with greater than 45 grams/liter are considered sweet
+
+   5 - chlorides: the amount of salt in the wine
+
+   6 - free sulfur dioxide: the free form of SO2 exists in equilibrium between molecular SO2 (as a dissolved gas) and bisulfite ion; it prevents microbial growth and the oxidation of wine
+
+   7 - total sulfur dioxide: amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine
+
+   8 - density: the density of water is close to that of water depending on the percent alcohol and sugar content
+
+   9 - pH: describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic); most wines are between 3-4 on the pH scale
+
+   10 - sulphates: a wine additive which can contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial and antioxidant
+
+   11 - alcohol: the percent alcohol content of the wine
+
+   Output variable (based on sensory data): 
+   12 - quality (score between 0 and 10)
+
+
+
 ```{r , Load_the_Data  and data summary}
 # Load the Data
-# download.file("https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityReds.csv","wineQualityReds.csv",method="curl")
+# download.file("https://s3.amazonaws.com/udacity-hosted-downloads
+#/ud651/wineQualityReds.csv","wineQualityReds.csv",method="curl")
 redwines<-read.csv('wineQualityReds.csv')
 redwines$X<-NULL
 print("Names of variables ")
@@ -52,11 +98,10 @@ print("Summary of Redwine data")
 summary(redwines)
 ```
 
+
+
 # Univariate Plots Section
-```{r echo=FALSE, Univariate_Plots}
 
-
-```
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
 transparent_theme <- theme(
@@ -69,19 +114,34 @@ transparent_theme <- theme(
  axis.line = element_blank(),
  panel.background = element_rect(fill = "transparent",colour = NA),
  plot.background = element_rect(fill = "transparent",colour = NA))
+dim<-list(fixed.acidity= "(g / dm^3)"
+          ,volatile.acidity ="(g / dm^3)"
+   ,citric.acid= "(g / dm^3)"
+    ,residual.sugar= "(g / dm^3)"
+   ,chlorides="(g / dm^3)"
+   ,free.sulfur.dioxide="(mg/dm^3)",total.sulfur.dioxide= "(mg/dm^3)"
+   ,density="(g / cm^3)"
+   ,pH=""
+   ,sulphates="(g/dm^3)"   ,alcohol="(% by volume)"
+   ,total.acidity="(g / dm^3)"
+   ,combined.sulphur.dioxide="(mg/dm^3)"
+   ,quality=""
+  )
 
 Mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
-HistoBox <- function(x,i,l, na.rm = TRUE, ...) {
-  m<-names(x)
-  heading<-paste("Histogram and Boxplot of ",m[i])
+HistoBox <- function(x,name,l, na.rm = TRUE, ...) {
+# m<-names(x)
+ 
+  heading<-paste("Histogram and Boxplot of ",name)
   
   #Histogram of the variable x
-  p1 <- ggplot(x,aes(x[,i],y=..density..))+
+  p1 <- ggplot(x,aes(x[,name],y=..density..))+
     geom_histogram(colour="black",alpha=1,fill="#993366",bins=30)+
-    geom_line(stat='density',color="black",linetype = 2)+ ggtitle(heading) + 
+    geom_line(stat='density',color="black",linetype = 2)+
+    ggtitle(heading) + 
      theme(plot.title = element_text(lineheight=.8, face="bold"))+
     theme( axis.title.x = element_blank())
   
@@ -89,18 +149,23 @@ HistoBox <- function(x,i,l, na.rm = TRUE, ...) {
   # Box plot of the x variable
   
   
-p2 <- ggplot(redwines, aes(factor(1), x[,i]))+
+p2 <- ggplot(redwines, aes(factor(1), x[,name]))+
   geom_jitter(alpha = 0.2,color='#993366')+
   geom_boxplot(alpha=0.1,color='black')+
   stat_summary(fun.y=mean,shape=1,col='red',fill='red',geom='point')+
-  geom_hline(yintercept = (median(x[,i]) + sd(x[,i])*3.5),linetype = 4)+
+  geom_hline(yintercept = (median(x[,name]) +
+              sd(x[,name])*3.5),linetype = 4)+
   coord_flip()+
-  labs(y =m[i])
+  labs(y =paste(name," ",dim[name]))
   #+transparent_theme
   
   #text or comments
   
-  text<-paste(l[i],"Where the Standard deviation is",round(sd(x[,i]),3),",beyond ",round(sd(x[,i]) * 3.5+median(x[,i]),3)," we will find outliers ","and the average from boxplot is ",round(mean(x[,i]),3),". Histogram highest value"," at ",m[i]," equal to ",Mode(x[,i]),".")
+  text<-paste(l[name],"Where the Standard deviation is",round(sd(x[,name]),3)
+              ,",beyond ",round(sd(x[,name]) * 3.5+median(x[,name]),3)
+              ," we will find outliers ","and the average from boxplot is "
+              ,round(mean(x[,name]),3),". Histogram highest value"," at "
+              ,name," equal to ",Mode(x[,name]),".")
     
   p3 <- splitTextGrob(text)
     
@@ -113,40 +178,40 @@ p2 <- ggplot(redwines, aes(factor(1), x[,i]))+
 
 
 
-```{r, }
 
-
-
-# plots = lapply(seq_along(m), function(x) HistoBox(redwines[,x],comments))
-# require(gridExtra)
-# do.call(grid.arrange,  c(plots,ncol=1))
-
-#lapply(seq_along(nm), function(i) HistoBox(redwines,i,comments))
-
-
-```
 
 ```{r,message=FALSE,echo=FALSE,results='hide'}
-comments <-list("Fixed acidity is slightly a skewed Normal distribution."
-                ," Volatile acidity is similar to fixed acidity, also has a long tail distribution.It is having a bimodal distribution."
-                ,"Citric acid has quite a long-tail distribution.But it is not a Normal Distribution.And there are no wine of 8% concentration as in data"
-                ,"Outliers are many fot Residual sugar which  has a very long-tail distribution.Maximum values are in between 1.9 to 2.6."
-                ,"Almost similar to residual sugar with a very long-tail distribution.Maximum of values are between 0.07 and 0.09"
-                ,"Free sulfur dioxide has a positively skewed distribution. Maximum of the values are between 9.50 and 11.10."
-                ,"Same as last one, lesser outliers and its interquartile range  seems not quite large. It also has a long-tail distribution. "
-                ,"Apperar quite like a normal  distribution,most of the values falling between 0.995 and 1."
-                ,"pH is also normal distribuition with most of the pH values falling between 3.1 and 3.5. Not much outliers are seen."
-                ," For sulphites most of the values seems to be concentrated at 0.6. It is a long tailed distribution and quite similar to chlorides and residual sugar."
-                ," Most wines have less than 11% alcohol. Alcohol has a long-tail distribution, with there only being a few outliers"
-                ,"Similar to fixed acidity's distibution,since fixed acidity comprises the most.Total acidity values typically fall between 7 and 10 and there are very few outliers."
-                ,"combined sulfur dioxide has a distribution similar to total sulfur dioxide."
+comments <-list(fixed.acidity="Fixed acidity is slightly a skewed Normal distribution."
+                ,volatile.acidity=" Volatile acidity is similar to fixed acidity, also has a long tail distribution.It is having a bimodal distribution."
+                ,citric.acid="Citric acid has quite a long-tail distribution.But it is not a Normal Distribution.And there are no wine of 8% concentration as in data"
+                ,residual.sugar="Outliers are many fot Residual sugar which  has a very long-tail distribution.Maximum values are in between 1.9 to 2.6."
+                ,chlorides="Almost similar to residual sugar with a very long-tail distribution.Maximum of values are between 0.07 and 0.09"
+                ,free.sulfur.dioxide="Free sulfur dioxide has a positively skewed distribution. Maximum of the values are between 9.50 and 11.10."
+                ,total.sulfur.dioxide="Same as last one, lesser outliers and its interquartile range  seems not quite large. It also has a long-tail distribution. "
+                ,density="Apperar quite like a normal  distribution,most of the values falling between 0.995 and 1."
+                ,pH="pH is also normal distribuition with most of the pH values falling between 3.1 and 3.5. Not much outliers are seen."
+                ,sulphates=" For sulphites most of the values seems to be concentrated at 0.6. It is a long tailed distribution and quite similar to chlorides and residual sugar."
+                ,alcohol=" Most wines have less than 11% alcohol. Alcohol has a long-tail distribution, with there only being a few outliers"
+                ,total.acidity="Similar to fixed acidity's distibution,since fixed acidity comprises the most.Total acidity values typically fall between 7 and 10 and there are very few outliers."
+                ,combined.sulphur.dioxide="combined sulfur dioxide has a distribution similar to total sulfur dioxide."
                 )
+## i used not in by negating in
+"%ni%" <-Negate("%in%")
+## so we can select which all we do not want in the graphs to show
+#names(redwines)[names(redwines) %ni% c("quality")]
+
 redwinesx<-redwines
 redwinesx$total.acidity<-redwines$fixed.acidity+redwines$volatile.acidity
-redwinesx$combined.sulphur.dioxide<-redwines$total.sulfur.dioxide-redwines$free.sulfur.dioxide
-redwinesx<-redwinesx[,c(1:11,13,14,12)]
-lapply(1:13, function(i) HistoBox(redwinesx,i,comments))
-ggplot(aes(quality), data = redwines) +geom_bar(colour="black",alpha = 1,fill =  "#993366")
+redwinesx$combined.sulphur.dioxide<-
+  redwines$total.sulfur.dioxide-redwines$free.sulfur.dioxide
+lapply(names(redwinesx)[names(redwinesx) %ni% c("quality")]
+       , function(name) HistoBox(redwinesx,name,comments))
+
+ggplot(aes(quality), data = redwines) +
+  geom_bar(colour="black",alpha = 1,fill =  "#993366")+
+  ggtitle("Histogram of quality") +
+  theme(plot.title = element_text(lineheight=.8, face="bold"))+
+  scale_x_continuous(breaks = seq(0, 8, 1))
 
 ```
 
@@ -169,17 +234,19 @@ summary(redwines$quality)
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 >There can lot more features since in real world so many factors affect the quality of Red wine.
->>Type of grapes used
->>flavor (like combination of different ingredients)
->>Color
->>taste(sweet,sour,bitter,etc)
->>total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
+
+- Type of grapes used
+- flavor (like combination of different ingredients)
+- Color
+- taste(sweet,sour,bitter,etc)
+- total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
 
 ### Did you create any new variables from existing variables in the dataset?
 >Yes , i made total.acidity and combined.sulphur.dioxide, which may show some unseen trends.
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
 >Volatile acidity is having a bimodal distribution and Citric acid has quite a long-tail distribution.But it is not a Normal Distribution.
+
 >the data was already tidy so there was no requirement for any adjustment.
 
 
@@ -190,7 +257,7 @@ summary(redwines$quality)
 ```{r echo=FALSE, Bivariate_Plots}
 
 #corrplot.mixed(cor(redwines))
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD","#4477AA"))
 corrplot(cor(redwines), method="color", col=col(200),  
           order="hclust", 
          addCoef.col = "black", # Add coefficient of correlation
@@ -208,70 +275,84 @@ sort(c[,12])
 ```
 
 >Observing the  correlation, alcohol and volatile acidity, have a higher correlation with the quality of wine.Suphates and citric acid are also correlated with the quality of wine.
+
 >Residual sugar has almost no correlation with quality.
 
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-Boxinscatter <- function(x,i,l,factor, na.rm = TRUE, ...) {
-  m<-names(x)
- heading<-paste(" BoxinScatter: \n",m[i]," vs ",factor)
+Boxinscatter <- function(x,name,l,factor, na.rm = TRUE, ...) {
+  #m<-names(x)
+ heading<-paste(" BoxinScatter: \n",name," vs ",factor)
   
   #Histogram of the variable x
-  p1 <-ggplot(aes(factor(x[,factor]), x[,i]), data = x) +
+  p1 <-ggplot(aes(factor(x[,factor]), x[,name]), data = x) +
     geom_jitter( alpha = .5,color="#993366")  +
     geom_boxplot( alpha = .2,color = 'black')+
-    stat_summary(fun.y = "median",geom = "point",color = "red",shape = 18,size = 4)+
-    geom_smooth(aes(x[,factor]-2, x[,i]),method = "lm",se = FALSE,size=1,color = 'red',linetype=2) +
-    geom_hline(yintercept = (median(x[,i]) + sd(x[,i])*3.5),linetype = 4) +
-    ylab(m[i])+xlab(factor)+theme(text = element_text(size=13))+ ggtitle(heading) + 
-     theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
+    stat_summary(fun.y ="median",geom ="point",color="red",shape=18,size=4)+
+    geom_smooth(aes(x[,factor]-2, x[,name]),method = "lm"
+                ,se = FALSE,size=1,color = 'red',linetype=2) +
+    geom_hline(yintercept = (median(x[,name]) +
+                               sd(x[,name])*3.5),linetype = 4) +
+    ylab(paste(name," ",dim[name]))+xlab(paste(factor," ",dim[factor]))+theme(text = element_text(size=13))+
+    ggtitle(heading) + 
+     theme(plot.title = element_text(lineheight=.8,
+                                     face="bold",size = 15))
   
-  a<-paste(with(data=x,cor.test(x[,i],x[,factor])))
-  b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+  a<-paste(with(data=x,cor.test(x[,name],x[,factor])))
+  
+  b<-paste(l[name],a[7]," with ","t value equal to",round(as.numeric(a[1]),3)
+           ,", 95 percent confidence interval is",a[9],"with a correlation of"
+           ,round(as.numeric(a[4]),3))
   
   
-  p3 <- splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc"))
+  p3 <- splitTextGrob(b,hjust = "right",vjust = "bottom"
+                      ,gp=gpar(fontsize=12),x = unit(0, "npc"))
   
   return(grid.arrange(p1,p3,heights=c(3,1)))
   
 }
-#a<-paste(with(data=x,cor.test(x[,i],x[,factor])))
-commentz<-list("There positive correlation between fixed acidity and quality. The outliers fall in wine of quality 7 and 5."
-               ,"We can see Negitive correlation is the trend here."
-               ,"It is clear that  more citric acid higher the quality ,There are no wines of quality 8 that have no citric acid."
-               ," Their is a very weak correlation between residual sugar and quality of wine shows here. Its correlation is also very close to zero."
-               ,"A weak negetive correlation is seen."
-               ,"There is not quite a trend seen as the median increases and decreases.It shows free.sulphur.dioxide is not good indicator of quality."
-               ,"Oberving a negetive correlation.The outliers are present at quality 7,  less total sulfur dioxide leads to better wine."
-               ,"A weak negitive correlation is seen.Trend between quality of wine and density goes down."
-               ,"Again negitive correlation as pH is low it is more acidic, so the wine with lower pH seems to have good quality"
-               ,"Positive correlation, but for best quality suphate should be more than 0.5 and less than 1.5."
-               ,"A very high correlation is seen ,higher alcohol content will give high quality  wine."
-               ,"A weak positive correlation is seen and very similar to fixed acidity."
-               ,"It seems there is a negitive correlation ,but the median increases and decreases.")
+#a<-paste(with(data=x,cor.test(x[,name],x[,factor])))
+commentz<-list(fixed.acidity="There positive correlation between fixed acidity and quality. The outliers fall in wine of quality 7 and 5."
+               ,volatile.acidity="We can see Negitive correlation is the trend here."
+               ,citric.acid="It is clear that  more citric acid higher the quality ,There are no wines of quality 8 that have no citric acid."
+               ,residual.sugar=" Their is a very weak correlation between residual sugar and quality of wine shows here. Its correlation is also very close to zero."
+               ,chlorides="A weak negetive correlation is seen."
+               ,free.sulfur.dioxide="There is not quite a trend seen as the median increases and decreases.It shows free.sulphur.dioxide is not good indicator of quality."
+               ,total.sulfur.dioxide="Oberving a negetive correlation.The outliers are present at quality 7,  less total sulfur dioxide leads to better wine."
+               ,density="A weak negitive correlation is seen.Trend between quality of wine and density goes down."
+               ,pH="Again negitive correlation as pH is low it is more acidic, so the wine with lower pH seems to have good quality"
+               ,sulphates="Positive correlation, but for best quality suphate should be more than 0.5 and less than 1.5."
+               ,alcohol="A very high correlation is seen ,higher alcohol content will give high quality  wine."
+               ,total.acidity="A weak positive correlation is seen and very similar to fixed acidity."
+               ,combined.sulphur.dioxide="It seems there is a negitive correlation ,but the median increases and decreases.")
 
-#Boxinscatter(redwinesx,13,commentz,'quality')
-lapply(1:13, function(i) Boxinscatter(redwinesx,i,commentz,'quality'))
+#Boxinscatter(redwinesx,name,commentz,'quality')
+##except quality rest are used as variables
+lapply(names(redwines)[names(redwines) %ni% c("quality")]
+       , function(name) Boxinscatter(redwinesx,name,commentz,'quality'))
 
-   
+  
 ```
 
 ```{r}
 
-scatter_smooth<- function(df,i,l,factor, na.rm = TRUE, ...){
-  m<-names(df)
-  heading<-paste(" Scatter_smooth: \n",factor," vs ",m[i])
+scatter_smooth<- function(df,name,l,factor, na.rm = TRUE, ...){
   
- a<-paste(with(data=df,cor.test(df[,i],df[,factor])))
+  heading<-paste(" Scatter_smooth: \n",factor," vs ",name)
+  
+ a<-paste(with(data=df,cor.test(df[,name],df[,factor])))
  
-b<-paste(l[i],a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+b<-paste(l[name],a[7]," with ","t value equal to",round(as.numeric(a[1]),3)
+         ,", 95 percent confidence interval is",a[9],"with a correlation of"
+         ,round(as.numeric(a[4]),3))
 
-grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
+grid.arrange(ggplot(aes(x=df[,name],y=df[,factor]),data=df) +
   geom_point(alpha=0.3,color="#993366") +
-    geom_smooth()+ylab(factor)+xlab(m[i])+
+    geom_smooth()+ylab(paste(factor," ",dim[factor]))+xlab(paste(name," ",dim[name]))+
     theme(text = element_text(size=13))+ ggtitle(heading) + 
      theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
-  ,splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc")),heights=c(3,1))
+  ,splitTextGrob(b,hjust = "right",vjust = "bottom"
+                 ,gp=gpar(fontsize=12),x = unit(0, "npc")),heights=c(3,1))
 
 }
 
@@ -281,31 +362,37 @@ grid.arrange(ggplot(aes(x=df[,i],y=df[,factor]),data=df) +
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("From the graph chlorides ranges from 0.07 to 0.09, the density is positively correlated with chlorides."
-               ,"The density of wine is inversely proportional to the alcohol present in it."
-               ,"From the graph citric.acid ranges from 1.9 to 2.6, the density is positively correlated with citric acid."
-               ,"The density is positively correlated with residual sugar."
+commentz<-list(chlorides="From the graph chlorides ranges from 0.07 to 0.09, the density is positively correlated with chlorides."
+               ,alcohol="The density of wine is inversely proportional to the alcohol present in it."
+               ,citric.acid="From the graph citric.acid ranges from 1.9 to 2.6, the density is positively correlated with citric acid."
+               ,residual.sugar="The density is positively correlated with residual sugar."
 )
-redensity<-redwines[,c("chlorides","alcohol","citric.acid","residual.sugar","density")]
-lapply(1:4, function(i) scatter_smooth(redensity,i,commentz,'density') )
+redensity<-
+  redwines[,c("chlorides","alcohol","citric.acid","residual.sugar","density")]
+
+lapply(c("chlorides","alcohol","citric.acid","residual.sugar")
+       , function(name) scatter_smooth(redensity,name,commentz,'density') )
 
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("pH is positively correlated with  volatile.acidity."
+commentz<-list(volatile.acidity="pH is positively correlated with  volatile.acidity."
                
-               ,"From scatter plot  high negative correlation coefficient is seen, pH of wine is inversely proportional to the fixed acidity."
-               ,"pH is negatively correlated with total acidity of wine.")
+               ,fixed.acidity="From scatter plot  high negative correlation coefficient is seen, pH of wine is inversely proportional to the fixed acidity."
+               ,total.acidity="pH is negatively correlated with total acidity of wine.")
 redpH<-redwinesx[,c("volatile.acidity","fixed.acidity","total.acidity","pH")]
-lapply(1:3, function(i) scatter_smooth(redpH,i,commentz,'pH') )
+lapply(c("volatile.acidity","fixed.acidity","total.acidity")
+       , function(name) scatter_smooth(redpH,name,commentz,'pH') )
 ```
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-commentz<-list("citric.acid is inversely related with volatile.acidity."
-               ,"citric.acid is positively correlated with fixed.acidity. More the citric acid is added to the wine,fixed acidity increases."
-               ,"Very similar to fixed acidty.")
-redcitric<-redwinesx[,c("volatile.acidity","fixed.acidity","total.acidity","citric.acid")]
-lapply(1:3, function(i) scatter_smooth(redcitric,i,commentz,'citric.acid') )
+commentz<-list(volatile.acidity="citric.acid is inversely related with volatile.acidity."
+               ,fixed.acidity="citric.acid is positively correlated with fixed.acidity. More the citric acid is added to the wine,fixed acidity increases."
+               ,total.acidity="Very similar to fixed acidty.")
+redcitric<-
+redwinesx[,c("volatile.acidity","fixed.acidity","total.acidity","citric.acid")]
+lapply(c("volatile.acidity","fixed.acidity","total.acidity")
+       , function(name) scatter_smooth(redcitric,name,commentz,'citric.acid'))
 
 ```
 
@@ -316,9 +403,10 @@ lapply(1:3, function(i) scatter_smooth(redcitric,i,commentz,'citric.acid') )
 
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
 > pH and volatile acidity are positively correleated, Higher the pH value means less acidity, but from plots a higher volatile acidity means more acidity.
->Density of wine has high negative correlation with the amount of alcohol  in wine.
->I was expecting a close relation between sulphur and sulphur dioxide,there seems no relation
-with  correlation coefficient of 0.04. 
+
+> Density of wine has high negative correlation with the amount of alcohol  in wine.
+
+> I was expecting a close relation between sulphur and sulphur dioxide,there seems no relation with  correlation coefficient of 0.04. 
 
 ### What was the strongest relationship you found?
 > correlation of quality with other variables
@@ -331,91 +419,126 @@ sort(c[,12])
 ```
 
 > From the correlations we can clearly see alcohol positiely and volatile.acidity negitively  are having a strong relation with quality.
->And density and fixed acidity have a strong correlation.
+
+> And density and fixed acidity have a strong correlation.
 
 
 
 # Multivariate Plots Section
 
-## The below plots are large in number,since i believe in exploratory data analysis one must visualize,then only hidden trends can be found ,so i have plotted all the scatter plots of all combinations by factorizing quality.
+> The below plots are large in number,since i believe in exploratory data analysis one must visualize,then only hidden trends can be found ,so i have plotted all the scatter plots of all combinations by factorizing quality.
 
 
-
-```{r message=FALSE, echo=FALSE, results='hide'}
-
-scatter<- function(df,factor1,i){
- 
+```{r}
+#the function below gives a scatter plot between factor1 and name
+#with factor as quality
+scatter<- function(df,factor1,name){
+ m<-names(redwines)
  drops <- c(factor1)
 df1<-df[ , !(names(df) %in%  drops)]
 
- 
- m<-names(df1)
-  heading<-paste(" Scatter plot: \n",m[i]," vs ",factor1)
-  headings<-paste(" facet_scatter_smooth: \n",m[i]," vs ",factor1)
-  a<-paste(with(data=df,cor.test(df1[,i],df[,factor1])))
-  b<-paste(a[7]," with ","t value equal to",round(as.numeric(a[1]),3),", 95 percent confidence interval is",a[9],"with a correlation of",round(as.numeric(a[4]),3))
+  heading<-paste(" Scatter plot: \n",name," vs ",factor1)
   
-  p0<-ggplot(aes(df[,factor1], df1[,i], color = factor(quality)), data = df1) +    geom_jitter(size = 2,alpha=0.8) +
+  headings<-paste(" facet_scatter_smooth: \n",name," vs ",factor1)
+  
+  a<-paste(with(data=df,cor.test(df1[,name],df[,factor1])))
+  
+  b<-paste(a[7]," with ","t value equal to",round(as.numeric(a[1]),3)
+           ,", 95 percent confidence interval is",a[9],"with a correlation of"
+           ,round(as.numeric(a[4]),3))
+  
+  p0<-ggplot(aes(df[,factor1], df1[,name], color = factor(quality))
+             , data = df1)+
+    geom_jitter(size = 2,alpha=0.8) +
     scale_color_brewer(type='seq',
                        guide=guide_legend(title='Quality'),
-                       palette = 3)+scale_fill_manual(values = colours)+xlab(factor1) +
-    ylab(m[i])+  theme(panel.background = element_rect( fill = "grey90"))+ ggtitle(heading) +
+                       palette = 3)+scale_fill_manual(values = colours)+
+    xlab(factor1) +
+    ylab(paste(name," ",dim[name]))+
+    theme(panel.background = element_rect( fill = "grey75"))+
+    ggtitle(heading) +
     theme(plot.title = element_text(lineheight=.8, face="bold",size = 15))
   
-  p3<-splitTextGrob(b,hjust = "right",vjust = "bottom",gp=gpar(fontsize=12),x = unit(0, "npc"))
+  p3<-splitTextGrob(b,hjust = "right",vjust = "bottom"
+                    ,gp=gpar(fontsize=12),x = unit(0, "npc"))
   
-  p1<-ggplot(aes(df[,factor1], df1[,i], color =factor(quality)),data=df1) +
-    geom_jitter(size = 1.5, alpha = .4,color='#993366') +
+  p1<-ggplot(aes(df[,factor1], df1[,name],color=factor(quality)),data=df1)+
+    geom_jitter(size = 1.5, alpha = .3,color='#993366') +
     scale_color_brewer(type='seq',
                        guide=guide_legend(title='Quality'),
                        palette = 3) +
-    geom_smooth(se = FALSE,method="lm") +
-    xlab(factor1) +
-    ylab(m[i]) +  theme(panel.background = element_rect( fill = "grey85"))+ggtitle(headings) +
+    geom_smooth(se = FALSE,method="lm")+
+    xlab(paste(factor1," ",dim[factor1])) +
+    ylab(paste(name," ",dim[name])) +
+    theme(panel.background = element_rect( fill = "grey75"))+
+    ggtitle(headings) +
     theme(plot.title = element_text(lineheight=.8, face="bold",size = 13))
   
   
-  p2<-p1+facet_wrap(~quality,ncol=2)
+  #p2<-p1+facet_wrap(~quality,ncol=2)
   grid.arrange(p0,p3,heights=c(4,1))
-  grid.arrange(p2)
+  grid.arrange(p1)
   paste(heading)
 }
 
-
-lapply(1:10,function(i) lapply(i:10, function(j) scatter(redwines,names(redwines)[i],j)))
-
-
-
+#uncomment the loop, below  loop is only to visulize all 
+#the possible variable pairs for scatter plot with out any repetation  
+#but the fuction scatter will take names of the two variables and give
+# correct output of scatter plot between them. 
+# lapply(1:10,function(i) lapply(i:10
+#       , function(j) scatter(redwines,names(redwines)[i]
+#       ,names(redwines)[names(redwines) %ni% names(redwines)[i]][j])))
 ```
+
+
+
+
+
 
 
 After visualizing the above plots i am interested in few plots below
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
 names(redwines)
-scatter(redwines,"total.sulfur.dioxide"  ,2)
+scatter(redwines,"total.sulfur.dioxide"  ,"volatile.acidity")
 ```
->The region near to origin seems crowded with high quality wine.Low volatile.acidity and low total.sulfur.dioxide indicates high quality wine.
+
+
+> The region near to origin seems crowded with high quality wine.Low volatile.acidity and low total.sulfur.dioxide indicates high quality wine.
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-scatter(redwines,"density"  ,10)
+scatter(redwines,"density"  ,"alcohol")
 
 ```
-Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
+
+
+> Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
 
 
 ```{r message=FALSE, echo=FALSE, results='hide'}
-scatter(redwines,"fixed.acidity"  ,7)
+scatter(redwines,"fixed.acidity"  ,"density")
 
 ```
->there is a strong correlation between fixed.acidity  and  density.Cant conclude on this due to insufficient data.
+
+> there is a strong correlation between fixed.acidity  and  density.Cant conclude on this due to insufficient data.
+
+```{r}
+scatter(redwines,"citric.acid"  ,"residual.sugar")
+```
+
+
+> From the above plot its clearly seen there is almost no correlation between residual sugar and citric acid
+Where we can see the scatter plot for any value of citric acid residual sugar is mostly between 0 and 4.
 
 
 
 # Multivariate Analysis
 
+
+
 ### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
 > alcohol and volatile acidity are having a strong correlation with quality.less volatile acidity, and more alcohol gives better wine.
+
 > Sulphates range from 0.5 to 1.5 & chlorides from 0.1 to 1.5 gives a high quality wine. This suggests that there is an optimal range for volumes of these two features to make the best wine.
 
 > citric acid and volatile acidity did not give any usefulresults. 
@@ -430,14 +553,20 @@ with  correlation coefficient of 0.04.
 
 ------
 
+    
 # Final Plots and Summary
+
 
 ### Plot One
 ```{r echo=FALSE, Plot_One}
-ggplot(aes(quality), data = redwines) +geom_bar(colour="black",alpha = 1,fill =  "#993366")
-summary(redwines$quality)
+ggplot(aes(quality), data = redwines) +
+  geom_bar(colour="black",alpha = 1,fill =  "#993366")+
+  ggtitle("Histogram of quality") +
+  theme(plot.title = element_text(lineheight=.8, face="bold"))+
+  scale_x_continuous(breaks = seq(0, 8, 1))
 
 ```
+
 
 ### Description One
 > Quality ranges from 0 to 10,but in data minimum is 3 and maximum is 8, which means that most of the wines we will look at in the analysis are average wines, wines 5,6 constitute of 80% of wines, while  wines 7,8 only contribute 10% or more of the wine data. Due to lack of data on high quality wine we cant contribute to understand what are the main composition which leads to high quality wine.
@@ -445,10 +574,11 @@ summary(redwines$quality)
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
- Boxinscatter(redwines,11,"","quality")
+ Boxinscatter(redwines,"alcohol","","quality")
     
 
 ```
+
 
 ### Description Two
 > "A very high correlation is seen ,higher alcohol content will give high quality  wine.Considering the highest correlated variable with quality,alcohol, and density  is most correlated with alcohol negitively.Higher the quality of wine  when there is more alcohol and low density.
@@ -457,14 +587,12 @@ summary(redwines$quality)
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three,results="hide"}
-scatter_smooth(redwines,11,"",'density') 
-
-scatter(redwines,"density",10)
+scatter_smooth(redwines,"alcohol","",'density') 
 
 ```
 
 ### Description Three
-> Since all of the above are the similar plots of same variables,
+
 > The density of wine is inversely proportional to the alcohol present in it from scatter_smooth plot.There are few concentrations of quality 8 in scatter plot where high alcohol content and low density of wine.
 
 
@@ -473,6 +601,12 @@ scatter(redwines,"density",10)
 ------
 
 # Reflection
+
+> The red wine dataset  contains 1,599 observation with 10 variables(fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfer dioxide, density, pH, sulphates, alcohol, quality) of type numeric and 1 rating factor quality of type int. I am interested in the correlation between the features and wine quality.The wine data set contains information on the chemical properties of a selection of wines collected in 2009. It also includes sensorial data (wine ranking).
+
+> Sources
+   Created by: Paulo Cortez (Univ. Minho), Antonio Cerdeira, Fernando Almeida, Telmo Matos and Jose Reis (CVRVV) @ 2009
+
 > Starting from the histograms and box plots we could keenly see the distribution of points.Some were normal distributions and few were bimodal distributuions.
 
 > In bivariate analysis combination of boxplot and scatterplot gave a keen idea how each variable is correlated to each other and mainly to our feature of interest quality.
@@ -481,19 +615,14 @@ scatter(redwines,"density",10)
 
 > As the data was tidy already there was no need for data wrangling.
 
-> For future analysis i would like to collect data on few features listed below+
-
-> Since in real world so many factors affect the quality of Red wine.
-
-> Type of grapes used
-
-> flavor (like combination of different ingredients)
-
-> Color
-
-> taste(sweet,sour,bitter,etc)
-
-> total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
+> For future analysis i would like to collect data on few features listed below.
+ Since in real world so many factors affect the quality of Red wine.
+ 
+- Type of grapes used
+- flavor (like combination of different ingredients)
+- Color
+- taste(sweet,sour,bitter,etc)
+- total cost from the ingredients to final production of wine(since cost matters since high quality wine with less cost really matters)
 
 > Does cost of wine is dependent on quality ? then can we find a way to make better wine with less cost my understanding its relation with all the factors in real world? 
 
