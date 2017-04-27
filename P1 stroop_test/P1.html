@@ -11970,9 +11970,12 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-What-is-an-appropriate-set-of-hypotheses-for-this-task?-What-kind-of-statistical-test-do-you-expect-to-perform?-Justify-your-choices.">2. What is an appropriate set of hypotheses for this task? What kind of statistical test do you expect to perform? Justify your choices.<a class="anchor-link" href="#2.-What-is-an-appropriate-set-of-hypotheses-for-this-task?-What-kind-of-statistical-test-do-you-expect-to-perform?-Justify-your-choices.">&#182;</a></h2><p>From the fact that our brain processes text faster than colour,when we do the congruent word test we are having dual information from both text and color but for incongruent words test those both dont match and cause a confusion in recognising the color.</p>
-<blockquote><p>The $H_{O}$ is mean time taken to recognize the colors of ink for congruent words is equal to or greater than the mean time for incongruent words, so one-tailed t test is to be conducted. The $H_{1}$ (alternative hypothesis) is the congruent words mean is less than the incongruent words mean.</p>
+<blockquote><p>The $H_{O}$(null hypothesis) is mean time taken to recognize the colors of ink for congruent words is equal to or greater than the mean time for incongruent words, so one-tailed t test is to be conducted. The $H_{A}$ (alternative hypothesis) is the congruent words mean is less than the incongruent words mean.</p>
 </blockquote>
-$$ H_{O} = \mu_{Congruent} \geq \mu_{Incongruent} $$$$ H_{1} = \mu_{Congruent} <  \mu_{Incongruent} $$<h3 id="Dependent-samples-one-tailed-t-test-is-to-be-performed:">Dependent-samples one-tailed t-test is to be performed:<a class="anchor-link" href="#Dependent-samples-one-tailed-t-test-is-to-be-performed:">&#182;</a></h3><blockquote><p>We perform this test to find weather the time taken to recognize the congruent words is statistically less than the time taken to recognize the incongruent words for the total population.</p>
+$$ H_{O} = \mu_{C} \geq \mu_{I} $$$$ H_{A} = \mu_{C} <  \mu_{I} $$<blockquote><h4 id="$-\mu_{C}$-is-the-mean-of-the-time-taken-to-recognize-the-color-under-the-congruent-condition">$ \mu_{C}$ is the mean of the time taken to recognize the color under the congruent condition<a class="anchor-link" href="#$-\mu_{C}$-is-the-mean-of-the-time-taken-to-recognize-the-color-under-the-congruent-condition">&#182;</a></h4><h4 id="$\mu_{I}$is-the-mean-ofthe-time-taken-to-recognize-the-color--under-the-incongruent-condition">$\mu_{I}$is the mean ofthe time taken to recognize the color  under the incongruent condition<a class="anchor-link" href="#$\mu_{I}$is-the-mean-ofthe-time-taken-to-recognize-the-color--under-the-incongruent-condition">&#182;</a></h4>
+</blockquote>
+<h3 id="Dependent-samples-one-tailed-t-test-is-to-be-performed:">Dependent-samples one-tailed t-test is to be performed:<a class="anchor-link" href="#Dependent-samples-one-tailed-t-test-is-to-be-performed:">&#182;</a></h3><blockquote><p>We perform this test to find weather the time taken to recognize the congruent words is statistically less than the time taken to recognize the incongruent words for the total population.
+This test we are trying to assess whether the sample means are different because the two populations and population means are different or just by chance.</p>
 <p>T test because we are not having data of total populations mean or variance. And the size is less than 30 ,where cannot be approximated to normal distribution, so we cannot use z test.</p>
 <ul>
 <li>The above data is a sample from a population</li>
@@ -12637,6 +12640,249 @@ SZKXkEldkiRJkryETOqSJEmS5CVkUpckSZIkL/F/3CG8OM7fiTcAAAAASUVORK5CYII=
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">factorplot</span><span class="p">(</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;Congruent&quot;</span><span class="p">,</span><span class="s2">&quot;Incongruent&quot;</span><span class="p">]],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=.</span><span class="mi">8</span><span class="p">)</span>\
+<span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s2">&quot;Congruent&quot;</span><span class="p">,</span><span class="s2">&quot;Incongruent&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Boxplot Comparision&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Time taken to recognize&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.text.Text at 0xbf306a0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZUAAAH6CAYAAADP+dG0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xt8VPWd//H3kAuXhJBEAhYsgXA3CLvIRRZxG1aWoGJQ
+IeHSQYHiFmW5uLAJGC4lUEBYqFC5ulVuIXJRBIE+qtlYRBDRbkGJ3LoqBBADiYRcyGXm/P7wx9Ro
+woB+ZyYTXs+/MieTcz4Zg6/5zpmLzbIsSwAAGFDH1wMAAGoPogIAMIaoAACMISoAAGOICgDAGKIC
+ADCGqKBGycnJUceOHZWQkKCEhAQNHDhQQ4YM0ccff+yR47Vv3155eXk3vM67776rF198sdrvZ2Vl
+yW63a9CgQXr44Yc1adIkXbhwwfSoP8nmzZu1Zs2aG15n7NixOn36tJcmQm0V6OsBgO+rV6+e3nzz
+TdflPXv2aNq0afrTn/7kk3k++eQTXblypcrv7dq1SytXrtTKlSsVHR0ty7K0Zs0ajRw5Urt371Zw
+cLCXp63asGHD3F5n7dq1XpgEtR1RQY33zTffKCoqynX5tdde04YNG1SnTh01btxYM2bMUHR0tEaN
+GqXY2Fj953/+pw4cOKCUlBS9/vrrWrx4sWw2m/72t78pLy9PvXv3VmpqqoKCgiod56WXXtLu3bsV
+EBCgVq1aacaMGTp//rwyMjLkcDjUsGFDTZ48udLPLF26VGlpaYqOjpYk2Ww2Pf3002rWrJnKysoU
+HBxc5X6joqJkt9sVGxurDz74QJcvX9bIkSN1+fJlffjhhyopKdHvfvc7tW/fXna7Xa1bt9ann36q
+/Px8JSQkaMKECZKkVatW6Z133lFpaalKSkqUnJysfv36afny5frrX/+qr7/+Wu3bt1d0dLTy8/M1
+c+ZMpaenKyMjQ0FBQapbt67mzJmjNm3aqG/fvnrxxRd1zz33VHkbt2rVSikpKQoNDdWJEyf01Vdf
+KSYmRkuWLFFISIiH/wrgNyygBjl79qzVoUMH69FHH7UeffRR6xe/+IUVGxtrvfvuu5ZlWdaBAwes
+Bx980Lp8+bJlWZa1fft2a8CAAZbT6bQuXrxo/dM//ZP19ttvWw888ID14YcfWpZlWcnJydagQYOs
+wsJCq7S01BoxYoS1YcMGy7Isq127dtbly5etbdu2WUlJSVZRUZFlWZa1bNkya/To0a6vf/Ob3/xg
+1ry8PKtdu3ZWcXFxtb/Pjfb7y1/+0ho/frxlWZb117/+1WrXrp2VmZlpWZZlzZs3z0pNTXVdb+zY
+sVZZWZl15coVq3///tb//M//WDk5OZbdbrdKSkosy7Kst956y3rkkUdcx+nfv79VXl5e6XeoqKiw
+YmNjrYsXL1qWZVlvvPGGlZGRYVmWZcXFxVlHjx694W2cnJxsJSUlWaWlpVZZWZk1aNAga9u2bTf9
+3xe1H+dUUONcf/jrzTffVFZWltavX6/nnntOZ8+e1XvvvaeHHnpIkZGRkqTHH39cFy9eVE5Ojpo0
+aaK0tDSNHz9eiYmJ6t69u2ufjz32mEJCQhQcHKyEhATt37+/0jH37dunxx9/XA0aNJAkjRw5Uh98
+8IHKysqqnbNOnW//+Tidzmqv426//fr1kyT9/Oc/lyT16dNHktSiRYtKD7klJSUpKChIYWFhio+P
+1/79+9W8eXMtXLhQu3bt0uLFi5WRkaGioiLXz/zDP/yDAgMrPxgREBCg+Ph4DR06VHPmzFHDhg01
+ePDgSte50W18fcbg4GAFBQWpXbt21T40iNsTUUGN17VrV7Vq1UqffPKJrCreqs6yLFVUVEiSTp8+
+rcaNG+uTTz6pdJ2AgIBK178ehO9u+y6n0+naZ3UaNWqkli1b6siRIz/43sSJE3X8+HG3+/3+OZfv
+PyR33XfjcH3+Y8eOaejQoSosLFTv3r31q1/9qtLPXA/Z9y1evFirVq1SixYttHbtWo0fP77S993d
+xvXq1XNtt9lsVV4fty+ighrv888/1xdffKGOHTvq/vvv1549e1zP2Nq+fbvCw8MVHR2to0ePav36
+9dq+fbsKCgq0bt061z727t2rsrIylZaW6o033lBcXFylY9x///16/fXXVVxcLEnasGGDunfvruDg
+YAUEBFQbmPHjx2vevHn68ssvJUkOh0MrVqzQ8ePHFRMTc8P93oqdO3fK6XTqypUr2rt3r/r27avD
+hw+rU6dOGjVqlHr06KHMzEw5HI4b7icvL0///M//rPDwcD311FOaNGmSTpw48YPborrbGHCHE/Wo
+ca5du6aEhATXZafTqTlz5qhVq1Zq1aqVnnrqKT355JNyOp2KjIzU6tWrVVxcrOeee06pqalq2rSp
+FixYoCFDhrgeAqtXr56GDx+ugoIC9e/fX0888USlYw4ePFgXLlzQkCFD5HQ6FR0drcWLF0uSevXq
+pX//939XUFCQZsyYUennBg4cKMuy9Nxzz6miokKlpaWKjY3VunXrFBwcfMP93uptMnjwYBUVFWn4
+8OHq1auX2rZtqz/96U966KGHFBQUpF69eunKlSsqLCysdj+RkZEaN26cnnrqKdWrV08BAQGaO3du
+pev07t27ytv4+6s7oCo2i7UrarmUlBS1bdtWY8aM8fUoP4rdbteIESMUHx/v61EAt7jrAQAwhpUK
+AMAYVioAAGOICgDAGKICADCmRj+lODf3qq9HAABUISqqYZXbWakAAIwhKgAAY4gKAMAYogIAMIao
+AACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAYogIAMIao
+AKg1jh/P1vHj2b4e47ZWoz/5EQBuxZtvbpckdehwt48nuX2xUgFQKxw/nq0TJz7TiROfsVrxIaIC
+oFa4vkr5/tfwLqICADDGY1FxOByaNm2ahg4dqmHDhunkyZPKzs5Wnz59ZLfbZbfbtWfPHk8dHsBt
+JiHhiSq/hnd57ER9VlaWJCkjI0OHDh3S0qVL1bdvX40aNUqjR4/21GEB3KY6dLhb7dt3dH0N37BZ
+lmV5aucVFRUKDAzUG2+8oQ8++ED16tXT559/LofDoejoaE2fPl2hoaHV/nxu7lVPjQagFrp+gp6o
+eF5UVMMqt3s0KpKUnJyst99+W8uWLdPFixfVvn17derUSStXrlRBQYGSk5Or/dmKCocCAwM8OR4A
+wCCPR0WScnNzlZiYqIyMDDVt2lSSdPr0aaWlpWndunU3+DlWKgBQE1W3UvHYifodO3Zo9erVkqT6
+9evLZrNp/PjxOnr0qCTp4MGDio2N9dThAQA+4LGVSnFxsaZNm6ZLly6poqJCY8eO1c9+9jOlpaUp
+KChIjRs3VlpaGudUAMAP+eycyk9BVACgZvL6w18AgNsPUQEAGENUANQavPW97/HW9wBqDd763vdY
+qQCoFXjr+5qBqACoFXjr+5qBqAAAjCEqAGoF3vq+ZuBEPYBagbe+rxmICoBagxWK7/E2LQCAW8bb
+tAAAPI6oAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAY
+ogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAY
+ogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAY
+ogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAY
+ogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMCY
+QE/t2OFwKDU1VZ9//rlsNpt+85vfqG7dukpJSZHNZlPbtm01a9Ys1alD1wCgtvBYVLKysiRJGRkZ
+OnTokJYuXSrLsjRp0iT17NlTM2fOVGZmpvr16+epEQAAXuaxZcKDDz6otLQ0SdL58+cVFhamY8eO
+qUePHpKkBx54QAcOHPDU4QEAPuCxlYokBQYGKjk5WW+//baWLVum999/XzabTZIUEhKiq1ev3vDn
+IyIaKDAwwJMjAgAM8mhUJGnhwoWaMmWKEhMTVVpa6tpeVFSksLCwG/5sfn6xp8cDAPwIUVENq9zu
+sYe/duzYodWrV0uS6tevL5vNpk6dOunQoUOSpH379qlbt26eOjwAwAdslmVZnthxcXGxpk2bpkuX
+LqmiokJjx45V69atNWPGDJWXlysmJkZz585VQED1D2/l5t744TEAgG9Ut1LxWFRMICoAUDN5/eEv
+AMDth6gAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBii
+AgAwhqgAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBii
+AgAwhqgAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBii
+AgAwhqgAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBii
+AgAwhqgAAIwhKgAAY4gKAMCYQF8PAMB/bdmySYcPH/L1GC5FRUWSpJCQEB9P8nfdu/dUYuIIX4/h
+NaxUANQaZWWlKisr9fUYtzWbZVmWr4eoTm7uVV+PAMCPTJ06QZK0aNEyH09S+0VFNaxyOysVAIAx
+RAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENUAADGEBUAgDE3FZXi4mIdP35clmWpuLjY0zMB
+APyU26gcPHhQCQkJeuaZZ5Sbm6u+fftq//793pgNAOBn3EZlyZIlSk9PV1hYmJo0aaKNGzfqhRde
+8MZsAAA/4zYqTqdTUVFRrstt2rTx6EAAAP/l9vNU7rzzTmVlZclms6mgoECbNm1Ss2bNvDEbAMDP
+uF2pzJkzR7t27dKFCxfUr18/ffbZZ0pLS/PGbAAAP+N2pXLhwgUtWbKk0ra9e/dqwIABHhsKAOCf
+3K5UBg8erLlz58rhcLi2rVmzxu2Oy8vLNXXqVA0fPlyDBw9WZmamsrOz1adPH9ntdtntdu3Zs+en
+TQ8AqFHcrlTatm0rm82mJ598UsuWLVNkZKRu5sMid+7cqfDwcC1atEjffPONBg0apGeffVajRo3S
+6NGjjQwPAKhZ3K5UAgMD9fzzz2vQoEEaOnSoPv30UwUGum2R4uPjNXHiREmSZVkKCAjQp59+qnff
+fVcjRozQ9OnTVVhY+NN/AwBAjeG2DtdXJYMHD1ZMTIwmTpx4U6+qDwkJkSQVFhZqwoQJmjRpksrK
+yjRkyBB16tRJK1eu1EsvvaTk5ORq9xER0UCBgQE3+7sAuM0FBHx7P7m6z0+H57mNyrhx41xfd+3a
+VZs2bdKKFStuaucXLlzQs88+q+HDh2vgwIEqKChQWFiYJKlfv35un0WWn89bwgC4eQ6HU5KUm3vV
+x5PUftWFu9qoZGVlKS4uTiUlJdqxY0el73Xt2tXtAS9duqTRo0dr5syZ6tWrlyRpzJgxmjFjhjp3
+7qyDBw8qNjb2Vn4HAEANV21UPvnkE8XFxenQoUNVfn/QoEE33PGqVatUUFCgFStWuFY2KSkp+u1v
+f6ugoCA1btyY17sAQC1js27mqVw+whIWwK2YOnWCJGnRomU+nqT2u+WHv65777339Lvf/U5Xrlyp
+9FTizMxMc9MBAGoFt1GZO3euUlJSXK9XAQCgOm6jEhERobi4OG/MAgDwc26jcu+992r+/Pnq06eP
+6tat69revXt3jw4GAPA/bqNy9OhRSVJ2drZrm81m0/r16z03FQDAL7mNyoYNG7wxBwCgFnAblZEj
+R1a6bLPZVK9ePcXExOjXv/61GjVq5LHhAAD+xW1UWrdurcDAQD3xxBOSpLfeektfffWVmjZtquef
+f16///3vPT4kAMA/uH3x4+OPP67XX3+90rYnnnhC27dv16BBg37wFi4m8eJHoLLf/na28vPzfD1G
+jXX9tomIiPTxJDVXRESkpk+f/ZP386Nf/FheXq5Tp06pbdu2kqRTp07J6XTq2rVrKi8v/8mDAbh5
++fl5upx3SXXqu//4iduRs86395HzS77x8SQ1k7OkwuPHcPuXmZqaqrFjx+qOO+6Q0+lUQUGBXnjh
+BS1fvlwJCQkeHxBAZXXqByoivoWvx4Afyv/jGY8fw21UevbsqXfeeUcnT55UQECAYmJiFBQUpK5d
+u/IKewBAJW6jkpeXpzlz5ujgwYNyOBy67777NHv2bDVu3Ngb8wEA/IjbjxOeOXOm7rnnHmVmZior
+K0tdunTR888/743ZAAB+xm1Uzp49qzFjxig0NFQNGzbU2LFjdf78eW/MBgDwM26jYrPZdOHCBdfl
+8+fPKzCQZ54AAH7IbR0mTpyopKQkdenSRZZl6ciRI3xiIwCgSm6jEhcXpy5duujo0aNyOp2aM2eO
+IiN5YREA4IfcPvz1wQcf6JlnntEvfvELtWzZUkOGDNFf/vIXb8wGAPAzbqOycOFCzZkzR5IUExOj
+NWvWaN68eR4fDADgf9xGpbS0VO3atXNdbt26tSoqPP9SfwCA/3F7TiUmJkaLFi1yvSXL7t271bJl
+S0/PBQDwQ25XKvPmzVNJSYn+4z/+Q8nJySouLtbcuXO9MRsAwM+4Xak0atRIU6ZM0ZkzZ9SuXTtd
+u3ZNDRo08MZsAAA/43alcvDgQSUkJOiZZ57R5cuX1bdvX+3fv98bswEA/IzbqCxZskTp6ekKCwtT
+VFSUNm7cqBdeeMEbswEA/IzbqDidTkVFRbkut2nTxqMDAQD8l9tzKnfeeaeysrJks9lUUFCgTZs2
+qVmzZt6YDQDgZ9yuVObMmaNdu3bpwoUL6tevnz777DPXiyEBAPgutyuV9evXa8mSJd6YBQDg59yu
+VLKysmRZljdmAQD4ObcrlfDwcMXHxys2NlZ169Z1bZ8/f75HBwMA+B+3UXnssce8MQcAoBYgKgAA
+Y9yeUwEA4GYRFQCAMW4f/pKkkydP6sMPP1RFRYV69uypjh07enquWmvLlk06fPiQr8dwKSoqkiSF
+hIT4eJK/6969pxITR/h6DAA/gtuVyo4dO/TMM8/o7NmzOn/+vJ599llt27bNG7PBC8rKSlVWVurr
+MQDUEm5XKq+88oq2bt2qiIgISdKvf/1rjRw5UoMHD/b4cLVRYuKIGnUvfOrUCZKkRYuW+XgSALXB
+Tb2h5PWgSFJkZKRsNptHhwIA+Ce3K5X27dtr3rx5rpXJtm3b1KFDB48PBgDwP25XKnPnzlVwcLCm
+T5+uadOmKTAwULNnz/bCaAAAf+N2pbJ3715NnTq10rZNmzZpxIiac14AAFAzVBuVV199VYWFhcrI
+yNC5c+dc2x0Oh3bt2kVUAAA/UO3DX9HR0VVuDw4O1oIFCzw2EADAf1W7UomLi1NcXJwGDBig1q1b
+e3MmAICfcnuinqAAAG4W7/0FADCGqAAAjHH7lOL33ntPS5cuVUFBgSzLkmVZstlsyszM9MZ8AAA/
+4jYqc+fOVUpKitq2bcvbswAAbshtVCIiIhQXF+eNWQAAfs5tVO69917Nnz9fffr0Ud26dV3bu3fv
+7tHBAAD+x21Ujh49KknKzs52bbPZbFq/fr3npgIA+CW3UdmwYYM35gAA1AJun1J87tw5jRo1Sv/6
+r/+q3NxcjRw5Ujk5Od6YDQDgZ9yuVGbOnKkxY8Zo8eLFaty4sR555BElJydr06ZN3pgPwHcUFRXJ
+WVqh/D+e8fUo8EPOkgoVOYs8egy3K5X8/Hzdf//9kr49l5KYmKjCwkKPDgUA8E9uVyr16tXTV199
+5XqNykcffaTg4GCPDwbgh0JCQlRWp1wR8S18PQr8UP4fzyikfohHj+E2KikpKfq3f/s3nTlzRgkJ
+Cbpy5YpefPFFjw4FAPBPbqNyzz33aNu2bfriiy/kcDgUExOj/Px8b8wGAPAzbs+pTJkyRYGBgWrb
+tq06dOigLVu26LHHHvPGbAAAP+M2KnfccYcmT56s7OxsJSUlKTMzU+np6d6YDQDgZ9xGZfr06WrT
+po0GDx6sxMREvfLKK2rZsqUXRgMA+Jtqz6lMmzat0uWIiAht2bJFH330kSRp/vz5np0MAOB3qo1K
+jx49bngZAIDvqzYq3z0Z/80336ikpESWZcnhcPA2LQCAKrl9SvGSJUu0adMmVVRUKCIiQhcvXlSn
+Tp20detWb8wHAPAjbk/Uv/XWW/rzn/+shx56SOvXr9crr7yiyMhIb8wGAPAzbqPSpEkThYaGqm3b
+tjp+/Ljuu+8+Xbp0yRuzAQD8jNuHv0JDQ7Vjxw7FxsZq48aNatKkiQoKCtzuuLy8XNOnT9e5c+dU
+VlamcePGqU2bNkpJSZHNZlPbtm01a9Ys1anjtmsAAD/h9v/o8+bNU15ennr27KnmzZtr5syZmjx5
+stsd79y5U+Hh4UpPT9fLL7+stLQ0zZ8/X5MmTVJ6erosy1JmZqaRXwIAUDO4jcqBAwc0evRoSd++
+ueTOnTtv6r2/4uPjNXHiREmSZVkKCAjQsWPHXE9NfuCBB3TgwIGfMjsAoIap9uGvV199VYWFhcrI
+yNC5c+dc2x0Oh3bt2qURI0bccMchId++vXJhYaEmTJigSZMmaeHCha630A8JCdHVq1dvuI+IiAYK
+DAy46V8Gty4g4Nv7FVFRDX08CW7G9f9ewI8VEFDHo//eq41KdHS0jh079oPtwcHBWrBgwU3t/MKF
+C3r22Wc1fPhwDRw4UIsWLXJ9r6ioSGFhYTf8+fz84ps6Dn48h8MpScrNvXHgUTNc/+8F/FgOh9PI
+v/fqwlRtVOLi4hQXF6cBAwaodevWt3zAS5cuafTo0Zo5c6Z69eolSbr77rt16NAh9ezZU/v27dN9
+9913y/sFANRcbtfSPyYokrRq1SoVFBRoxYoVstvtstvtmjRpkpYvX66kpCSVl5erf//+P2rfAICa
+ye1Tin+s1NRUpaam/mD7xo0bPXVIAICP3fRZvytXrnhyDgBALeA2Kp999pni4+OVkJCgixcvql+/
+flWewAcAwG1U5s6dq5deeknh4eFq2rSpZs+erVmzZnljNgCAn3EblZKSkkon63v37q2ysjKPDgUA
+8E9uoxIeHq7jx4+7XrS4c+dONWrUyOODAQD8j9tnf82ePVvJyck6deqUunXrpujo6EovYgQA4Dq3
+UWnRooU2b96s4uJiOZ1OhYaGemMuAIAfchuVjz76SOvWrfvBU4rXr1/vsaEAAP7JbVRSUlI0fvx4
+NWvWzBvzAAD8mNuoNG3aVIMGDfLGLAAAP+c2Kna7XVOmTNF9992nwMC/X53QAAC+z21U0tPTJUkf
+f/xxpe1EBQDwfW6jkpubq71793pjFgCAn3P74sdu3bopKytLFRUV3pgHAODH3K5UsrKytHXr1krb
+bDabPvvsM48NBQDwT26jsn//fm/MAeAmOUsqlP/HM74eo0ZyljkkSXWCA3w8Sc3kLKmQ6nv2GNVG
+5bXXXlNSUpJ+//vfV/n98ePHe2woAFWLiIj09Qg1Wv61PElSRP1wH09SQ9X3/N9QtVGxLMujBwZw
+66ZPn+3rEWq0qVMnSJIWLVrm40luX9VGpW7dupJYkQAAbl61z/7ivb0AALfqpj+jHgAAd6p9+OvU
+qVP6l3/5lx9styxLNptNmZmZHh0MAOB/qo1KdHS01qxZ481ZAAB+rtqoBAUFqXnz5t6cBQDg56o9
+p9K1a1dvzgEAqAWqjcrMmTO9OQcAoBbg2V8AAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAw
+hqgAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAw
+hqgAAIwhKgAAY4gKAMAYogIAMIaoAACMISoAAGOICgDAGKICADCGqAAAjAn09QCe9tvfzlZ+fp6v
+x6ixrt82U6dO8PEkNVdERKSmT5/t6zEAv1Dro5Kfn6fLly/LFlTf16PUSNb/X6zmFRT7eJKaySov
+8fUIgF+p9VGRJFtQfYW2edTXY8APFZ7e6esRAL/CORUAgDFEBQBgDFEBABhDVAAAxhAVAIAxt8Wz
+vwB4xpYtm3T48CFfj+FSE1931b17TyUmjvD1GF5DVADUGsHBdX09wm2PqAD40RITR9xW98LhHudU
+AADGEBUAgDFEBQBgDFEBABhDVAAAxhAVAIAxHo3KkSNHZLfbJUnZ2dnq06eP7Ha77Ha79uzZ48lD
+AwB8wGOvU1m7dq127typ+vW//XCsY8eOadSoURo9erSnDgkA8DGPrVRatGih5cuXuy5/+umnevfd
+dzVixAhNnz5dhYWFnjo0AMBHPLZS6d+/v3JyclyXO3furCFDhqhTp05auXKlXnrpJSUnJ99wHxER
+DRQYGPCT5ggI4LQRfpqAgDqKimro6zEAv+C1t2np16+fwsLCXF+npaW5/Zn8/J/+uekOh/Mn7wO3
+N4fDqdzcq74eA6hRqruj5bW78WPGjNHRo0clSQcPHlRsbKy3Dg0A8BKvrVRmz56ttLQ0BQUFqXHj
+xje1UgEA+BePRuWuu+7Sli1bJEmxsbHKyMjw5OEAAD7GWWwAgDFEBQBgDFEBABhDVAAAxtT6jxMu
+KiqSVX5Nhad3+noU+CGrvERFRZavxwD8BisVAIAxtX6lEhISolKHTaFtHvX1KPBDhad3KiSkga/H
+APwGKxUAgDFEBQBgDFEBABhDVAAAxhAVAIAxRAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENU
+AADGEBUAgDFEBQBgDFEBABhDVAAAxhAVAIAxRAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENU
+AADGEBUAgDFEBQBgDFEBABhDVAAAxhAVAIAxRAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENU
+AADGBPpUb0o7AAAJM0lEQVR6AG+wyktUeHqnr8eokSxHmSTJFhDs40lqJqu8RFIDX48B+I1aH5WI
+iEhfj1Cj5edfkyRFhPE/zqo14G8IuAU2y7IsXw9Rndzcq74eodabOnWCJGnRomU+ngSAP4mKaljl
+ds6pAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAYogIA
+MIaoAACMISoAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBiiAgAwhqgAAIwhKgAAY4gKAMAYogIA
+MIaoAACM8WhUjhw5IrvdLkn68ssvNWzYMA0fPlyzZs2S0+n05KEBAD7gsaisXbtWqampKi0tlSTN
+nz9fkyZNUnp6uizLUmZmpqcODQDwEY9FpUWLFlq+fLnr8rFjx9SjRw9J0gMPPKADBw546tAAAB8J
+9NSO+/fvr5ycHNdly7Jks9kkSSEhIbp69arbfURENFBgYICnRoSkgIBv71dERTX08SQAagOPReX7
+6tT5+6KoqKhIYWFhbn8mP7/YkyNBksPx7bmt3Fz3kQeA66q7I+q1Z3/dfffdOnTokCRp37596tat
+m7cODQDwEq9FJTk5WcuXL1dSUpLKy8vVv39/bx0aAOAlHn3466677tKWLVskSa1atdLGjRs9eTgA
+gI/x4kcAgDFEBQBgDFEBABhDVAAAxhAVAIAxRAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENU
+AADGEBUAgDFEBQBgDFEBABhDVAAAxtgsy7J8PUR1auPnpm/ZskmHDx/y9Rgu+fl5kqSIiEgfT/J3
+3bv3VGLiCF+PAeAGqvuMeo9+8iNqvuDgur4eAUAtwkoFAHDLqlupcE4FAGAMUQEAGENUAADGEBUA
+gDFEBQBgDFEBABhDVAAAxhAVAIAxRAUAYAxRAQAYQ1QAAMYQFQCAMUQFAGAMUQEAGENUAADGEBUA
+gDFEBQBgDFEBABhDVAAAxtToz6gHAPgXVioAAGOICgDAGKICADCGqAAAjCEqAABjiAoAwBii4kdO
+nTqlp59+Wna7XU888YSWLVummvqM8I0bN/p6BNQwOTk5SkxM9PUYP9lrr72m8vJyX49RYxEVP1FQ
+UKDnnntO06dP14YNG7RlyxadPHlSGRkZvh6tSitXrvT1CIBHrF69Wk6n09dj1FiBvh4ANyczM1M9
+e/ZUy5YtJUkBAQFauHChgoKCtGDBAn388ceSpEceeURPPvmkUlJSFBwcrHPnzunrr7/WggULFBsb
+q61bt2rTpk1q1KiRgoKC9NBDD0mStm/fLqfTqQkTJmjKlCl6//33JUmTJ0/W0KFD1bVrV82aNUtf
+fvmlnE6nJk2apJ49e2rgwIHq0aOHTpw4IZvNphUrVmjjxo26cuWKZs+erdmzZ/vi5kINZrfb1aFD
+B506dUqFhYV68cUX1bx5c61YsULvvPOOHA6Hhg0bpqFDh+oPf/iDdu/ercDAQHXr1k1Tp07V8uXL
+lZOTo8uXL+v8+fOaNm2a+vTpo6ysLC1btkyhoaFq1KiR2rdvrx49emjx4sUKCgpSYmKili1bpr17
+96pu3bpavHixYmJi9Pjjj+u//uu/9NFHH8npdOqpp57SgAEDqpzzwIEDys3N1eTJk7VixQpf35Q1
+EisVP/H111/r5z//eaVtISEhev/995WTk6MtW7YoPT1db731lk6cOCFJatasmf77v/9bdrtdr732
+mvLy8vTyyy9r8+bN+sMf/qCSkhLXvsLCwrR582b16tWryuNv3bpVERER2rRpk1asWKE5c+ZIkoqK
+ivTwww9r48aNatKkifbt26dx48apUaNGBAXV6ty5s1599VX17t1bu3fvVnZ2tvbt26etW7dq69at
++uKLL3TixAnt3btXGRkZysjI0JdffqmsrCxJUnBwsF5++WU9//zzevXVV+VwODR37lytXbtWGzZs
+UN26dV3HKi0tVXp6ugYNGlTlLH/+85+Vk5OjzZs3a/369Vq1apUKCgqqnHPIkCGKiorS0qVLPX8j
++SlWKn6iWbNmys7OrrTt7NmzOnbsmLp16yabzaagoCB16dJFf/vb3yRJHTt2lCTdeeed+stf/qIz
+Z86odevWql+/viTpH//xH137atWqVZXHvX7O5uTJk/r444919OhRSVJFRYXy8vIkSXfffbck6Wc/
++5lKS0tN/cqoxa7/zdx55526dOmSPv/8c3Xu3FkBAQEKCAhQSkqK9u7dqy5duigoKEiS1K1bN506
+dUpS5b/tsrIy5eXlKTQ0VI0bN3Zd99KlS5Ju7m/72LFjstvtkr792z537lyVc8I9Vip+Ii4uTu+9
+957OnDkjSSovL9eCBQsUFhbmeuirvLxc//u//6vo6GhJks1mq7SPFi1a6P/+7/907do1OZ1OVyAk
+qU6dv/8pVFRUqKioSGVlZTp9+rQkKSYmRg8//LA2bNigtWvXKj4+XuHh4VUeR1KNfQIBaqaYmBhl
+Z2fL6XSqvLxco0aNUqtWrXT06FFVVFTIsiwdPnzYFYjv/83dcccdKioqct3ROXLkiOt73/3bDg4O
+1tdffy3LsnT8+HHXsXv27KkNGzZo3bp1GjBgwA8eFfgum83GOZUbYKXiJ0JDQ7VgwQKlpqbKsiwV
+FRUpLi5OdrtdFy5cUFJSksrLyxUfH6/Y2Ngq9xEZGamxY8dq+PDhCg8PV2lpqQIDA1VRUVHpeiNH
+jlRSUpLuuusuNWvWTJI0dOhQpaam6pe//KUKCws1fPjwSv9Yv69169aaMmWKFi9ebO5GQK3VsWNH
+9enTR8OGDZPT6dSwYcPUoUMHDRgwwLXt3nvv1YMPPuiKwXfVqVNHM2bM0NixY9WwYUM5nU7Xnavv
++tWvfqWnn35azZs3V1hYmCSpb9+++vDDDzV8+HAVFxfrwQcfVGhoaLWzduvWTU8//bTWr19f5R2q
+2x3vUnwbqaio0Nq1azVu3DhZlqURI0Zo8uTJ6t69u69HA36y1atXa9SoUQoODtaUKVN0//33V3se
+BZ7DSuU2EhgYqJKSEj322GMKCgpS586d1a1bN1+PBRgREhKixMRE1atXT82bN3c9sxHexUoFAGAM
+J+oBAMYQFQCAMUQFAGAMUQEAGENUAADGEBUAgDH/D3vM+ur0o4M4AAAAAElFTkSuQmCC
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="From-the-above-boxplot:">From the above boxplot:<a class="anchor-link" href="#From-the-above-boxplot:">&#182;</a></h3><ul>
+<li>We can see two outliers for the incongruent test.</li>
+<li>The mean time taken for the incongruent test is higher than the congruent test</li>
+</ul>
+<p>So lets conform by contucting the t test</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -12659,7 +12905,7 @@ SZKXkEldkiRJkryETOqSJEmS5CVkUpckSZIkL/F/3CG8OM7fiTcAAAAASUVORK5CYII=
 <ul>
 <li>t-critical value for a one-tailed test with $\alpha = 0.05$ and 𝑑𝑓 = 23 ,t-critical = −1.714(left tail)</li>
 </ul>
-<p>$t=\frac{\mu}{SEd}=\frac{ -7.96479}{0.993029}=-8.021$</p>
+<p>$t=\frac{\mu_{d}}{SEd}=\frac{ -7.96479}{0.993029}=-8.021$</p>
 <ul>
 <li>The p-value for a t-statistic of -8.021 with df=23 is very small; it is $p < 0.00001$</li>
 </ul>
