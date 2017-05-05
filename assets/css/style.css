@@ -6,7 +6,7 @@
 
 ------------------------- */
 
-@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 
 /* GENERAL STYLES */
@@ -37,8 +37,8 @@ body {
 
 h1, h2, h3, h4, h5, h6, ul {margin: 0;}
 
-a {color: #62C370;}
-a:hover, a:focus, a:visited {color: #62A370;}
+a {color: rgb(0,191,255);}
+a:hover, a:focus, a:visited {color: rgb(0,180,225);}
 
 a, ul, ol, button, .item {
     text-decoration: none;
@@ -46,11 +46,6 @@ a, ul, ol, button, .item {
     transition: background-color .2s linear, color .2s linear, border .2s linear;
 }
 
-::selection{background:rgba(0,0,0,0.1);}
-::-moz-selection{background:rgba(0,0,0,0.1);}
-img::-moz-selection{background:transparent;}
-img::selection{background:transparent;}
-img::-moz-selection{background:transparent;}
 
 .border {
     display: block;
@@ -59,7 +54,7 @@ img::-moz-selection{background:transparent;}
     margin: 20px auto;
 }
 
-.green {color: #62C370;}
+.green {color: rgb(0,191,255);}
 .red {color: #D9534F;}
 .light-font {color: #FFF; }
 .dark-font {color: #282828;}
@@ -242,13 +237,13 @@ img::-moz-selection{background:transparent;}
 }
 
 .sidebar-nav li a:active {
-    background-color: #62C370;
+    background-color: rgb(0,191,255);
     color: #FFF;
 }
 
 .sidebar-nav li a.active {
     background-color: rgba(0, 0, 0, 0.3);
-    border-left: 4px solid #62C370;
+    border-left: 4px solid rgb(0,191,255);
     color: #FFF;
 }
 
@@ -285,7 +280,7 @@ img::-moz-selection{background:transparent;}
     }
 
     .sidebar-nav li a.active {
-        background-color: #62C370;
+        background-color: rgb(0,191,255);
         border-left: none;
     }
 
@@ -369,12 +364,12 @@ img::-moz-selection{background:transparent;}
 /* ABOUT */
 
 #about {
-    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.85)), url('../img/fuji.jpg') no-repeat center center scroll;
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('../img/certi.jpg') no-repeat center center scroll;
     background: linear-gradient(
-        rgba(255, 255, 255, 0.75), 
-        rgba(255, 255, 255, 0.75)
-        ), url('../img/fuji.jpg') no-repeat center center scroll;
-    background-size: cover;
+        rgba(255, 255, 255, 0), 
+        rgba(255, 255, 255, 0)
+        ), url('../img/certi.jpg') no-repeat center center scroll;
+    background-size: contain;
     color: #555;
 }
 
@@ -430,7 +425,7 @@ img::-moz-selection{background:transparent;}
 #about .high-green {
     margin: 0 2px;
     padding: 4px 6px;
-    background: #62C370;
+    background: rgb(0,191,255);
     color: #FFF;
     border-radius: 1px;
 }
@@ -471,7 +466,7 @@ img::-moz-selection{background:transparent;}
 
 #Nanodegree .item i {
     margin-bottom: 25px;
-    color: #62C370;
+    color: rgb(0,191,255);
 }
 
 .course_text {
@@ -507,7 +502,7 @@ img::-moz-selection{background:transparent;}
 
 #DataSciSpec .item i {
     margin-bottom: 25px;
-    color: #62C370;
+    color: rgb(0,191,255);
 }
 
 /* PORTFOLIO */
@@ -616,7 +611,7 @@ img::-moz-selection{background:transparent;}
 }
 
 #portfolio .overlay a:hover {
-    background: #62C370;
+    background: rgb(0,191,255);
     text-decoration: none;
 }
 
@@ -733,7 +728,7 @@ input[type=text], input[type=email], textarea.form-control {
 
 input[type=text], input[type=email] {height: 45px;}
 input[type=text]:focus, input[type=email]:focus, textarea.form-control:focus {
-    border-color: #62C370;
+    border-color: rgb(0,191,255);
     box-shadow: none;
 }
 
@@ -746,11 +741,11 @@ textarea.form-control {
     margin: 25px 0;
     padding: 15px 40px;
     background-color: transparent;
-    border: 3px solid #62C370;
+    border: 3px solid rgb(0,191,255);
     border-radius: 50px;
     text-transform: uppercase;
     font-size: 1.3em;
-    color: #62A370;
+    color: rgb(0,180,225);
 }
 
 #contact .btn-custom:hover,
@@ -758,7 +753,7 @@ textarea.form-control {
 #contact .btn-custom.focus,
 #contact .btn-custom:active,
 #contact .btn-custom.active{
-    background-color: #62C370;
+    background-color: rgb(0,191,255);
     color: #FFF;
 }
 
@@ -769,7 +764,7 @@ textarea.form-control {
 
 #footer {
     width: 100%;
-    background-color: #62C370;
+    background-color: rgb(0,191,255);
     text-align: center;
     text-transform: uppercase;
 }
